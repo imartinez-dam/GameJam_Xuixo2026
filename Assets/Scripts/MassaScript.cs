@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class MassaScript : MonoBehaviour
@@ -37,11 +35,18 @@ public class MassaScript : MonoBehaviour
                 float trueprog = Barra.progress%1;
 
                 if (trueprog > 0.5) trueprog = 1f-trueprog;
-                puntuacio += trueprog/0.5f*100f;
+                else puntuacio += trueprog/0.5f*100f;
                 
                 Vector3 end = Barra.transform.position;
                 end.x -= transform.localScale.x*multScale;
-                StartCoroutine(MoveBetween(Barra.transform.position, end));
+                if((Barra.progress < 1 && (Barra.progress > 0.7 || Barra.progress < 0.1)) || (Barra.progress > 1 && (1.3 > Barra.progress || 1.8 < Barra.progress)))
+                {
+                    StartCoroutine(MoveBetween(Barra.transform.position, end, false));
+                } else
+                {
+                    StartCoroutine(MoveBetween(Barra.transform.position, end, true));
+                }
+                
             } 
         }
         
@@ -54,12 +59,21 @@ public class MassaScript : MonoBehaviour
         Barra.iniciat = true;
     }
 
-    IEnumerator MoveBetween(Vector3 start, Vector3 end)
+    IEnumerator MoveBetween(Vector3 start, Vector3 end, bool animar)
     {
         
         float elapsedTime = 0f;
         Vector2 originalScale = transform.localScale;
+        Vector2 originalPos = transform.position;
+        Vector2 targetScale = originalScale;
+        targetScale.x += 0.5f;
+        Vector2 targetPosition = originalPos;
+        targetPosition.x -= 1.4f;
 
+        if(animar)
+        {
+            
+        }
         while (elapsedTime < duracio)
         {
             float t = elapsedTime / duracio;
@@ -73,10 +87,31 @@ public class MassaScript : MonoBehaviour
                 easedT
             );
 
+            if (animar)
+            {
+                transform.position = Vector3.Lerp(
+                    originalPos,
+                    targetPosition,
+                    easedT
+                );
+
+                transform.localScale = Vector3.Lerp(
+                    originalScale,
+                    targetScale,
+                    easedT
+                );
+            }
+
 
             elapsedTime += Time.deltaTime;
 
             yield return null;
+        }
+
+        if (animar)
+        {
+            transform.position = targetPosition;
+            transform.localScale = targetScale;
         }
 
         Barra.transform.position = end;
