@@ -243,6 +243,9 @@ MonoBehaviour:
   escenaAcabada: 0
   intents: 3
   puntuacio: 0
+  escenaSeguent: Crema
+  pausaResultat: 1.5
+  puntsMaxims: 20
   Barra: {fileID: 1624573122}
 --- !u!212 &1219303670
 SpriteRenderer:

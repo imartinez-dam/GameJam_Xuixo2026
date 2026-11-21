@@ -1187,6 +1187,9 @@ MonoBehaviour:
   - {fileID: -7513607121249023846, guid: 2c67aac9f6eceba4e9ce260e40b6ea99, type: 3}
   - {fileID: 113578558482072165, guid: ed4819ce90e30f041be3b3ddfed29a67, type: 3}
   crema: {fileID: 869076185}
+  escenaSeguent: EnrotllarMassa
+  pausaResultat: 1.5
+  puntsMaxims: 20
 --- !u!212 &1825259495
 SpriteRenderer:
   serializedVersion: 2

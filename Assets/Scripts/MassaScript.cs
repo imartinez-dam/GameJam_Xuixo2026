@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using Xuixo;
 
 public class MassaScript : MonoBehaviour
 {
@@ -7,13 +8,19 @@ public class MassaScript : MonoBehaviour
     public int intents;
     public float puntuacio;
     public MouBarra Barra;
+    [Header("Transició")]
+    [SerializeField] private string escenaSeguent = "Crema";
+    [SerializeField, Min(0f)] private float pausaResultat = 1.5f;
+    [SerializeField, Min(0)] private int puntsMaxims = 20;
+
+    private int intentsInicials;
     private float duracio = 1;
     private float multScale = 2;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
    
     void Start()
     {
-
+        intentsInicials = Mathf.Max(1, intents);
     }
 
 
@@ -35,7 +42,7 @@ public class MassaScript : MonoBehaviour
                 float trueprog = Barra.progress%1;
 
                 if (trueprog > 0.5) trueprog = 1f-trueprog;
-                else puntuacio += trueprog/0.5f*100f;
+                 puntuacio += trueprog/0.5f*100f;
                 
                 Vector3 end = Barra.transform.position;
                 end.x -= transform.localScale.x*multScale;
@@ -133,10 +140,16 @@ public class MassaScript : MonoBehaviour
             Barra.Paused = false;
         } else
         {
-            puntuacio /= 3;
-            escenaAcabada = true;
-        }
+             puntuacio /= intentsInicials;
+             escenaAcabada = true;
+             int punts = Mathf.RoundToInt(Mathf.Clamp01(puntuacio / 100f) * puntsMaxims);
+             StartCoroutine(StageTransition.Advance(GameManager.StretchStage, punts, pausaResultat, escenaSeguent, this));
+         }
+     }
+
+    private void OnGUI()
+    {
+        if (escenaAcabada)
+            StageTransition.DrawResult("Dough stretched");
     }
-
-
 }

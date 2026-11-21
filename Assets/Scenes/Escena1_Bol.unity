@@ -936,7 +936,7 @@ MonoBehaviour:
   masa: {fileID: 590929956}
   camara: {fileID: 1527843339}
   escenaSeguent: Estirar
-  puntsMaxims: 80
+  puntsMaxims: 20
   duradaAplastament: 0.55
   pausaAbansDeFos: 0.9
   duradaFos: 1.1

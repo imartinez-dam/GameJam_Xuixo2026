@@ -166,7 +166,7 @@ namespace Xuixo.EditorTools
             var final = rodilloGO.AddComponent<RodilloFinal>();
             final.masa = masa;
             final.camara = camScript;
-            final.escenaSeguent = "FryingFinale";
+            final.escenaSeguent = "Estirar";
 
             // ---------------------------------------------------------------- HUD
             var hudGO = new GameObject("HUD");

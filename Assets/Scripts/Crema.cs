@@ -16,19 +16,21 @@ public class Crema : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D other)
     {
+        if (!gameObject.activeSelf) return;
+
         if (other.gameObject.CompareTag("Xuixo"))
         {
-            xuixo.AugmentarVelocitat();
             Reiniciar();
+            xuixo.ResolGota(true);
         }
-
-        if (other.gameObject.CompareTag("Terra"))
+        else if (other.gameObject.CompareTag("Terra"))
         {
             ContactPoint2D punt = other.GetContact(0);
 
             esquitx.Esquitxar(punt.point);
 
             Reiniciar();
+            xuixo.ResolGota(false);
         }
     }
 

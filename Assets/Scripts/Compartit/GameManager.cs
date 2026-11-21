@@ -6,6 +6,9 @@ namespace Xuixo
     public sealed class GameManager : MonoBehaviour
     {
         public const string BowlStage = "bowl";
+        public const string StretchStage = "stretch";
+        public const string CustardStage = "custard";
+        public const string RollStage = "roll";
         public const string FryingStage = "frying";
 
         public static GameManager Instance { get; private set; }

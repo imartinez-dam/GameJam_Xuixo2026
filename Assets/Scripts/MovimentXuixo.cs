@@ -1,15 +1,25 @@
 using UnityEngine;
+using Xuixo;
 
 public class MovimentXuixo : MonoBehaviour
 {
     private SpriteRenderer massa;
     public Sprite[] sprites;
-    private int intents = 3;
+    private const int IntentsTotals = 3;
+    private int intents = IntentsTotals;
     private int cremaenmassa = 0;
     private float velocitat = 3f;
     private float incrementvelocitat = 1f;
     private int direccio = 2;
     public GameObject crema;
+
+    [Header("Transició")]
+    [SerializeField] private string escenaSeguent = "EnrotllarMassa";
+    [SerializeField, Min(0f)] private float pausaResultat = 1.5f;
+    [SerializeField, Min(0)] private int puntsMaxims = 20;
+
+    private bool gotaEnCurs;
+    private bool acabat;
 
     void Start()
     {
@@ -18,12 +28,15 @@ public class MovimentXuixo : MonoBehaviour
 
     private void Update()
     {
+        if (acabat) return;
+
         transform.Translate(Vector2.right * velocitat * direccio * Time.deltaTime);
 
-        if (Input.GetKeyDown(KeyCode.Space) && intents > 0 && !crema.activeSelf)
+        if (Input.GetKeyDown(KeyCode.Space) && intents > 0 && !gotaEnCurs && !crema.activeSelf)
         {
-            crema.SetActive(true);
+            gotaEnCurs = true;
             intents--;
+            crema.SetActive(true);
         }
     }
 
@@ -35,7 +48,27 @@ public class MovimentXuixo : MonoBehaviour
         }
     }
 
-    public void AugmentarVelocitat()
+    public void ResolGota(bool encert)
+    {
+        if (!gotaEnCurs || acabat) return;
+
+        gotaEnCurs = false;
+        if (encert) AugmentarVelocitat();
+
+        if (intents > 0) return;
+
+        acabat = true;
+        int punts = Mathf.RoundToInt((float)cremaenmassa / IntentsTotals * puntsMaxims);
+        StartCoroutine(StageTransition.Advance(GameManager.CustardStage, punts, pausaResultat, escenaSeguent, this));
+    }
+
+    private void OnGUI()
+    {
+        if (acabat)
+            StageTransition.DrawResult("Custard stage complete");
+    }
+
+    private void AugmentarVelocitat()
     {
         velocitat = velocitat + incrementvelocitat;
         cremaenmassa++;

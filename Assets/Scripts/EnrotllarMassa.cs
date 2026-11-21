@@ -1,9 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using Xuixo;
 
 [RequireComponent(typeof(LineRenderer), typeof(PolygonCollider2D))]
 public class EnrotllarMassa : MonoBehaviour
@@ -12,7 +11,9 @@ public class EnrotllarMassa : MonoBehaviour
     [SerializeField] private TMP_Text textPercentatge;
     [SerializeField] private Transform marcaInici;
     [SerializeField] private Transform marcaFinal;
-    [SerializeField] private string escenaSeguent;
+    [SerializeField] private string escenaSeguent = "FryingFinale";
+    [SerializeField, Min(0f)] private float pausaResultat = 2f;
+    [SerializeField, Min(0)] private int puntsMaxims = 20;
     [SerializeField, Range(0.2f, 0.8f)] private float amplada = 0.55f;
     [SerializeField] private Color colorPendent = new Color(1f, 0.8f, 0.4f);
     [SerializeField] private Color colorSuperat = Color.green;
@@ -313,12 +314,7 @@ public class EnrotllarMassa : MonoBehaviour
         acabat = true;
         UltimPercentatge = completat ? 100 : CalculaPercentatge();
         MostraPercentatge(UltimPercentatge);
-        StartCoroutine(CarregaEscenaSeguent());
-    }
-
-    private IEnumerator CarregaEscenaSeguent()
-    {
-        yield return new WaitForSecondsRealtime(0.7f);
-        SceneManager.LoadScene(escenaSeguent);
+        int punts = Mathf.RoundToInt(UltimPercentatge / 100f * puntsMaxims);
+        StartCoroutine(StageTransition.Advance(GameManager.RollStage, punts, pausaResultat, escenaSeguent, this));
     }
 }

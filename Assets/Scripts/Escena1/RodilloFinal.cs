@@ -17,8 +17,8 @@ namespace Xuixo.Escena1
 
         [Header("Transicio")]
         [Tooltip("Escena que es carregara despres (si existeix a Build Settings)")]
-        public string escenaSeguent = "FryingFinale";
-        [SerializeField, Min(0)] private int puntsMaxims = 80;
+        public string escenaSeguent = "Estirar";
+        [SerializeField, Min(0)] private int puntsMaxims = 20;
 
         public float duradaAplastament = 0.55f;
         public float pausaAbansDeFos = 0.9f;

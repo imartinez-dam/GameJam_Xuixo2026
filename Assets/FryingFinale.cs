@@ -213,7 +213,10 @@ public sealed class FryingFinale : MonoBehaviour
         int points = friedSuccessfully ? fryingPoints : 0;
         GameManager manager = GameManager.Instance;
         int total;
-        if (manager != null && manager.HasScore(GameManager.BowlStage))
+        if (manager != null && manager.HasScore(GameManager.BowlStage)
+            && manager.HasScore(GameManager.StretchStage)
+            && manager.HasScore(GameManager.CustardStage)
+            && manager.HasScore(GameManager.RollStage))
         {
             manager.TryAddScore(GameManager.FryingStage, points);
             total = manager.TotalScore;
@@ -226,7 +229,7 @@ public sealed class FryingFinale : MonoBehaviour
 #endif
         else
         {
-            Debug.LogError("FryingFinale reached without a bowl score. Start a run from ObradorIntro.", this);
+            Debug.LogError("FryingFinale reached without all preceding stage scores. Start a run from ObradorIntro.", this);
             SetStage(Stage.Finished, "Could not finish this run", "Start a new run from the intro");
             return;
         }
