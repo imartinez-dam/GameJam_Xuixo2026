@@ -2,7 +2,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using Xuixo;
+using Xuixo.UI;
 
 [RequireComponent(typeof(LineRenderer), typeof(PolygonCollider2D))]
 public class EnrotllarMassa : MonoBehaviour
@@ -37,6 +39,7 @@ public class EnrotllarMassa : MonoBehaviour
     private float distanciaMaxima;
     private bool resseguint;
     private bool acabat;
+    private enum FinalIntent { Completat, ForaDelCami, BotoAlliberat, RatoliNoDisponible }
 
     private void Start()
     {
@@ -76,7 +79,39 @@ public class EnrotllarMassa : MonoBehaviour
 
         passadis = GetComponent<PolygonCollider2D>();
         GeneraEspiral();
+        AplicaEstilResultat();
         MostraPercentatge(0);
+    }
+
+    private void AplicaEstilResultat()
+    {
+        if (textPercentatge == null)
+            return;
+
+        TemaPastisseria tema = TemaPastisseria.Carrega();
+        if (tema == null)
+            return;
+
+        RectTransform text = textPercentatge.rectTransform;
+        GameObject panell = new GameObject("PergamiResultat", typeof(RectTransform));
+        RectTransform fons = (RectTransform)panell.transform;
+        fons.SetParent(text.parent, false);
+        fons.SetSiblingIndex(text.GetSiblingIndex());
+        fons.anchorMin = text.anchorMin;
+        fons.anchorMax = text.anchorMax;
+        fons.pivot = text.pivot;
+        fons.anchoredPosition = text.anchoredPosition;
+        fons.sizeDelta = text.sizeDelta;
+
+        Image imatge = panell.AddComponent<Image>();
+        imatge.sprite = tema.SpritePanell;
+        imatge.type = Image.Type.Sliced;
+        imatge.raycastTarget = false;
+
+        textPercentatge.color = TemaPastisseria.ColorTextFosc;
+        textPercentatge.fontSize = 34f;
+        textPercentatge.margin = new Vector4(24f, 0f, 24f, 0f);
+        textPercentatge.raycastTarget = false;
     }
 
     private void GeneraEspiral()
@@ -155,7 +190,7 @@ public class EnrotllarMassa : MonoBehaviour
         if (ratoli == null)
         {
             if (resseguint)
-                Acaba(false);
+                Acaba(FinalIntent.RatoliNoDisponible);
 
             return;
         }
@@ -170,7 +205,7 @@ public class EnrotllarMassa : MonoBehaviour
         if (!pla.Raycast(raig, out float distanciaRaig))
         {
             if (resseguint)
-                Acaba(false);
+                Acaba(FinalIntent.ForaDelCami);
             return;
         }
 
@@ -190,7 +225,7 @@ public class EnrotllarMassa : MonoBehaviour
 
         if (!premut)
         {
-            Acaba(false);
+            Acaba(FinalIntent.BotoAlliberat);
             return;
         }
 
@@ -203,7 +238,7 @@ public class EnrotllarMassa : MonoBehaviour
 
             if (!EsDinsDelPassadis(mostra))
             {
-                Acaba(false);
+                Acaba(FinalIntent.ForaDelCami);
                 return;
             }
 
@@ -211,7 +246,7 @@ public class EnrotllarMassa : MonoBehaviour
 
             if (Vector2.Distance(mostra, punts[NombreSegments]) <= amplada * 0.3f)
             {
-                Acaba(true);
+                Acaba(FinalIntent.Completat);
                 return;
             }
         }
@@ -309,11 +344,23 @@ public class EnrotllarMassa : MonoBehaviour
         ActualitzarColor(percentatge);
     }
 
-    private void Acaba(bool completat)
+    private void Acaba(FinalIntent motiu)
     {
         acabat = true;
-        UltimPercentatge = completat ? 100 : CalculaPercentatge();
-        MostraPercentatge(UltimPercentatge);
+        UltimPercentatge = motiu == FinalIntent.Completat ? 100 : CalculaPercentatge();
+
+        string missatge = motiu switch
+        {
+            FinalIntent.Completat => "Massa enrotllada!",
+            FinalIntent.ForaDelCami => "Has sortit del camí",
+            FinalIntent.BotoAlliberat => "Has deixat anar el botó",
+            _ => "No es detecta el ratolí"
+        };
+
+        if (textPercentatge != null)
+            textPercentatge.text = $"{missatge} · {UltimPercentatge}%";
+
+        ActualitzarColor(UltimPercentatge);
         int punts = Mathf.RoundToInt(UltimPercentatge / 100f * puntsMaxims);
         StartCoroutine(StageTransition.Advance(GameManager.RollStage, punts, pausaResultat, escenaSeguent, this));
     }
