@@ -82,17 +82,17 @@ namespace Xuixo.Escena1
             GUI.color = new Color(0.99f, 0.95f, 0.87f, 0.98f);
             GUI.Label(new Rect(0f, Screen.height - 780f * k, Screen.width, 80f * k), consell, _consell);
 
-            // Icones de les fletxes al costat del consell
-            if (iconaEsquerra != null && iconaDreta != null && !string.IsNullOrEmpty(consell) &&
-                masa.EstatActual == MasaJugador.Estat.DinsBol)
-            {
-                float midax = _consell.CalcSize(new GUIContent(consell)).x;
-                float ix = (Screen.width - midax) * 0.5f;
-                float iy = Screen.height - 760f * k;
-                GUI.color = Color.white;
-                GUI.DrawTexture(new Rect(ix - 48f * k, iy, 34f * k, 34f * k), iconaEsquerra, ScaleMode.ScaleToFit, true);
-                GUI.DrawTexture(new Rect(ix + midax + 14f * k, iy, 34f * k, 34f * k), iconaDreta, ScaleMode.ScaleToFit, true);
-            }
+            //// Icones de les fletxes al costat del consell
+            //if (iconaEsquerra != null && iconaDreta != null && !string.IsNullOrEmpty(consell) &&
+            //    masa.EstatActual == MasaJugador.Estat.DinsBol)
+            //{
+            //    float midax = _consell.CalcSize(new GUIContent(consell)).x;
+            //    float ix = (Screen.width - midax) * 0.5f;
+            //    float iy = Screen.height - 760f * k;
+            //    GUI.color = Color.white;
+            //    GUI.DrawTexture(new Rect(ix - 48f * k, iy, 34f * k, 34f * k), iconaEsquerra, ScaleMode.ScaleToFit, true);
+            //    GUI.DrawTexture(new Rect(ix + midax + 14f * k, iy, 34f * k, 34f * k), iconaDreta, ScaleMode.ScaleToFit, true);
+            //}
 
             // Indicador d'escena (1 de 6)
             if (indicadorActiu != null && indicadorInactiu != null)
