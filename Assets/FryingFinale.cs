@@ -20,10 +20,8 @@ public sealed class FryingFinale : MonoBehaviour
     [SerializeField] private RectTransform meter;
     [SerializeField] private Text meterLabel;
     [SerializeField] private Image fill;
-    [SerializeField] private RectTransform targetMarks;
-    [SerializeField] private RectTransform lowerTick;
-    [SerializeField] private RectTransform upperTick;
-    [SerializeField] private RectTransform colorSwatch;
+    [SerializeField] private Image targetBand;
+    [SerializeField] private Color targetHighlight = new Color(1f, 0.8f, 0.3f, 0.45f);
 
     [Header("Pastry textures")]
     [SerializeField] private Texture2D friedXuixo;
@@ -40,9 +38,10 @@ public sealed class FryingFinale : MonoBehaviour
 
     [Header("Timing")]
     [SerializeField, Min(0.1f)] private float heatSeconds = 4.4f;
-    [SerializeField, Min(0.1f)] private float handsOffSeconds = 2f;
     [SerializeField, Range(0.05f, 0.85f)] private float targetStart = 0.56f;
-    [SerializeField, Range(0.1f, 0.95f)] private float targetEnd = 0.68f;
+    [SerializeField, Range(0.1f, 0.95f)] private float targetEnd = 0.76f;
+    [SerializeField, Range(0.05f, 0.85f)] private float secondTargetStart = 0.15f;
+    [SerializeField, Range(0.1f, 0.95f)] private float secondTargetEnd = 0.35f;
 
     [Header("Ending hooks")]
     [SerializeField] private UnityEvent onXuixoEnding = new UnityEvent();
@@ -58,8 +57,11 @@ public sealed class FryingFinale : MonoBehaviour
     private const float RevealHeight = 112f;
     private const float RevealWidth = 320f;
     private const float OilEntryX = -140f;
+    private const float FlipAnimationSeconds = 0.42f;
+    private const float SplashSeconds = 0.24f;
 
-    private enum Stage { Ready, Roll, Drop, Sink, Flip, HandsOff, Bubbling, Pop, Sugar, Finished }
+    private enum Stage { Ready, Roll, Drop, Sink, Flip, Flipping, TakeOut, Bubbling, Pop, Sugar, Finished }
+    private enum TimingCue { Wait, Now, TooLate }
     private enum Outcome { ExtraWonky, Wonky, WellMade }
 
     private Stage stage;
@@ -67,7 +69,14 @@ public sealed class FryingFinale : MonoBehaviour
     private Outcome outcome;
     private float pastryHeight;
     private float heat;
-    private float TargetEnd => Mathf.Max(targetStart + 0.01f, targetEnd);
+    private bool IsSecondSide => stage == Stage.TakeOut;
+    private float ActiveTargetStart => IsSecondSide ? secondTargetStart : targetStart;
+    private float ActiveTargetEnd => Mathf.Max(ActiveTargetStart + 0.01f, IsSecondSide ? secondTargetEnd : targetEnd);
+    // Both the visible cue and the next input check use the last displayed heat value.
+    private TimingCue CurrentCue => heat < ActiveTargetStart ? TimingCue.Wait : heat <= ActiveTargetEnd ? TimingCue.Now : TimingCue.TooLate;
+    private Color targetIdle;
+    private Vector3 pastryScale;
+    private Rect rawCrop;
 
     private readonly Image[] bubbles = new Image[7];
     private float bubbleTime;
@@ -76,22 +85,22 @@ public sealed class FryingFinale : MonoBehaviour
     {
         if (!canvas || !trayStart || !trayEdge || !oilSurface || !oilMask || !pastry || !pastry.texture
             || !friedXuixo || !sugaredXuixo || !wonkyXuixo || !extraWonkyXuixo
-            || !prompt || !hint || !meter || !meterLabel || !fill || !targetMarks
-            || !lowerTick || !upperTick || !colorSwatch)
+            || !prompt || !hint || !meter || !meterLabel || !fill || !targetBand)
         {
             Debug.LogError("FryingFinale needs its scene layout, UI and pastry textures assigned.", this);
             enabled = false;
             return;
         }
 
-        SetVerticalAnchor(lowerTick, targetStart);
-        SetVerticalAnchor(upperTick, TargetEnd);
-        SetVerticalAnchor(colorSwatch, (targetStart + TargetEnd) * 0.5f);
-        targetMarks.gameObject.SetActive(true);
+        LayoutTargetBand();
+        targetIdle = targetBand.color;
+        targetBand.gameObject.SetActive(true);
         // The meter is visible in edit mode for layout work, but not until frying during play.
         meter.gameObject.SetActive(false);
         CreateBubbles();
         pastryHeight = pastry.rectTransform.rect.height;
+        pastryScale = pastry.rectTransform.localScale;
+        rawCrop = pastry.uvRect;
         stage = Stage.Ready;
     }
 
@@ -99,7 +108,7 @@ public sealed class FryingFinale : MonoBehaviour
     {
         bool pressed = Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame;
         elapsed += Time.deltaTime;
-        AnimateBubbles(stage == Stage.Flip || stage == Stage.HandsOff || stage == Stage.Bubbling);
+        AnimateBubbles(stage == Stage.Flip || stage == Stage.TakeOut || stage == Stage.Bubbling);
 
         // A transition consumes this frame's press; it can't affect the next stage too.
         switch (stage)
@@ -136,38 +145,31 @@ public sealed class FryingFinale : MonoBehaviour
                 if (sink >= 1f)
                 {
                     pastry.enabled = false;
-                    meter.gameObject.SetActive(true);
-                    SetFill(0f, RawColor);
-                    SetStage(Stage.Flip, "Flip in the golden zone", "SPACE: Flip once when the fill reaches the marked band");
+                    BeginTimingRound(secondSide: false);
                 }
                 break;
             case Stage.Flip:
-                // Judge against the fill shown to the player on the previous rendered frame.
-                if (pressed && heat <= TargetEnd)
-                {
-                    if (heat < targetStart)
-                        StartReveal(false);
-                    else
-                    {
-                        targetMarks.gameObject.SetActive(false);
-                        meterLabel.text = "REST";
-                        SetFill(0f, FriedColor);
-                        SetStage(Stage.HandsOff, "Hands off!", "Let the second side fry without pressing Space");
-                    }
-                    break;
-                }
-
-                heat = Mathf.Clamp01(elapsed / heatSeconds);
-                Color color = heat < targetStart
-                    ? Color.Lerp(RawColor, FriedColor, heat / targetStart)
-                    : Color.Lerp(FriedColor, BurntColor, Mathf.InverseLerp(TargetEnd, 1f, heat));
-                SetFill(heat, color);
-                if (heat >= 1f) StartReveal(false);
+            case Stage.TakeOut:
+                UpdateTimingRound(pressed);
                 break;
-            case Stage.HandsOff:
-                if (pressed && elapsed < handsOffSeconds) StartReveal(false);
-                else if (elapsed >= handsOffSeconds) StartReveal(true);
-                else SetFill(elapsed / handsOffSeconds, FriedColor);
+            case Stage.Flipping:
+                // Input is ignored during the flip; the second timing round starts at splashdown.
+                float flip = Mathf.Clamp01(elapsed / FlipAnimationSeconds);
+                float arc = 4f * flip * (1f - flip);
+                MovePastry(Mathf.Lerp(-pastryHeight, 34f, arc));
+                Vector3 scale = pastryScale;
+                scale.y *= Mathf.Lerp(0.22f, 1f, Mathf.Abs(Mathf.Cos(flip * Mathf.PI)));
+                pastry.rectTransform.localScale = scale;
+                pastry.rectTransform.localRotation = Quaternion.Euler(0f, 0f, 12f * Mathf.Sin(flip * 2f * Mathf.PI));
+                pastry.uvRect = flip < 0.5f ? rawCrop : new Rect(rawCrop.x, rawCrop.y + rawCrop.height, rawCrop.width, -rawCrop.height);
+                if (flip >= 1f)
+                {
+                    pastry.enabled = false;
+                    pastry.rectTransform.localScale = pastryScale;
+                    pastry.rectTransform.localRotation = Quaternion.identity;
+                    pastry.uvRect = rawCrop;
+                    BeginTimingRound(secondSide: true);
+                }
                 break;
             case Stage.Bubbling:
                 if (elapsed >= 0.65f)
@@ -186,7 +188,7 @@ public sealed class FryingFinale : MonoBehaviour
                     + 38f * Mathf.Sin(pop * Mathf.PI));
                 if (pop >= 1f)
                 {
-                    if (outcome == Outcome.WellMade) SetStage(Stage.Sugar, "A xuixo!", "SPACE: Add sugar");
+                    if (outcome == Outcome.WellMade) SetStage(Stage.Sugar, "A xuixo!", "[SPACE] Add sugar");
                     else
                     {
                         bool wonky = outcome == Outcome.Wonky;
@@ -245,6 +247,58 @@ public sealed class FryingFinale : MonoBehaviour
         wellMadeMinScore = Mathf.Max(wonkyMinScore + 1, wellMadeMinScore);
     }
 
+    private void BeginTimingRound(bool secondSide)
+    {
+        SetStage(secondSide ? Stage.TakeOut : Stage.Flip,
+            secondSide ? "Side 2: Take it out in the low gold band" : "Side 1: Flip in the golden zone",
+            "Press Space only when the bar reaches the marked band");
+        heat = 0f;
+        LayoutTargetBand();
+        targetBand.gameObject.SetActive(true);
+        SetFill(0f, RawColor);
+        ShowTimingCue(CurrentCue);
+        meter.gameObject.SetActive(true);
+    }
+
+    private void UpdateTimingRound(bool pressed)
+    {
+        TimingCue shownCue = CurrentCue;
+        if (pressed && shownCue != TimingCue.TooLate)
+        {
+            if (shownCue == TimingCue.Wait)
+                StartReveal(false);
+            else if (IsSecondSide)
+                StartReveal(true);
+            else
+            {
+                targetBand.gameObject.SetActive(false);
+                meterLabel.color = Color.white;
+                meterLabel.text = "FLIPPING…";
+                SetFill(0f, RawColor);
+                MovePastry(-pastryHeight);
+                pastry.enabled = true;
+                SetStage(Stage.Flipping, "Flipping…", "Next: watch for the gold band near the bottom");
+            }
+            return;
+        }
+
+        heat = Mathf.Clamp01(elapsed / heatSeconds);
+        Color color = heat < ActiveTargetStart
+            ? Color.Lerp(RawColor, FriedColor, heat / ActiveTargetStart)
+            : Color.Lerp(FriedColor, BurntColor, Mathf.InverseLerp(ActiveTargetEnd, 1f, heat));
+        SetFill(heat, color);
+        if (CurrentCue != shownCue) ShowTimingCue(CurrentCue);
+        if (heat >= 1f) StartReveal(false);
+    }
+
+    private void ShowTimingCue(TimingCue cue)
+    {
+        targetBand.color = cue == TimingCue.Now ? targetHighlight : targetIdle;
+        meterLabel.color = cue == TimingCue.Now ? new Color32(255, 220, 135, 255) : Color.white;
+        meterLabel.text = cue == TimingCue.Now ? (IsSecondSide ? "[SPACE] TAKE IT OUT!" : "[SPACE] FLIP NOW!")
+            : cue == TimingCue.Wait ? "WAIT" : "TOO LATE";
+    }
+
     private void SetStage(Stage next, string title, string instructions)
     {
         stage = next;
@@ -260,10 +314,11 @@ public sealed class FryingFinale : MonoBehaviour
         fill.color = color;
     }
 
-    private static void SetVerticalAnchor(RectTransform rect, float fraction)
+    private void LayoutTargetBand()
     {
-        rect.anchorMin = new Vector2(rect.anchorMin.x, fraction);
-        rect.anchorMax = new Vector2(rect.anchorMax.x, fraction);
+        RectTransform rect = targetBand.rectTransform;
+        rect.anchorMin = new Vector2(rect.anchorMin.x, ActiveTargetStart);
+        rect.anchorMax = new Vector2(rect.anchorMax.x, ActiveTargetEnd);
     }
 
     private void SetPastry(Texture2D texture, Rect crop, float width)
@@ -279,11 +334,23 @@ public sealed class FryingFinale : MonoBehaviour
     private void AnimateBubbles(bool visible)
     {
         if (visible) bubbleTime += Time.deltaTime;
+        bool splashing = stage == Stage.TakeOut && elapsed < SplashSeconds;
         for (int i = 0; i < bubbles.Length; i++)
         {
             Image bubble = bubbles[i];
             bubble.enabled = visible;
             if (!visible) continue;
+
+            if (splashing)
+            {
+                float t = Mathf.Clamp01(elapsed / SplashSeconds);
+                float spread = i - (bubbles.Length - 1) * 0.5f;
+                bubble.rectTransform.anchoredPosition = new Vector2(spread * (6f + 19f * t),
+                    4f * t * (1f - t) * (30f - 4f * Mathf.Abs(spread)));
+                bubble.rectTransform.localScale = Vector3.one * (1.15f - t * 0.6f);
+                bubble.color = new Color(1f, 0.8f, 0.45f, 1f - t);
+                continue;
+            }
 
             float cycle = Mathf.Repeat(bubbleTime * (0.9f + i * 0.065f) + i * 0.17f, 1f);
             bubble.rectTransform.anchoredPosition = new Vector2(-138f + 46f * i, 2f + cycle * 32f);
