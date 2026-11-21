@@ -1,0 +1,324 @@
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
+
+[RequireComponent(typeof(LineRenderer), typeof(PolygonCollider2D))]
+public class EnrotllarMassa : MonoBehaviour
+{
+    [SerializeField] private Camera cameraJoc;
+    [SerializeField] private TMP_Text textPercentatge;
+    [SerializeField] private Transform marcaInici;
+    [SerializeField] private Transform marcaFinal;
+    [SerializeField] private string escenaSeguent;
+    [SerializeField, Range(0.2f, 0.8f)] private float amplada = 0.55f;
+    [SerializeField] private Color colorPendent = new Color(1f, 0.8f, 0.4f);
+    [SerializeField] private Color colorSuperat = Color.green;
+    [SerializeField] private Transform puntsEspiral;
+
+
+    public static int UltimPercentatge { get; private set; }
+
+    private const int SegmentsTap = 8;
+
+    private LineRenderer linia;
+
+    private int ultimTram = -1;
+
+    private Vector2[] punts;
+    private float[] distancies;
+    private int NombreSegments => punts.Length - 1;
+
+    private PolygonCollider2D passadis;
+    private Vector2 posicioAnterior;
+    private float distanciaMaxima;
+    private bool resseguint;
+    private bool acabat;
+
+    private void Start()
+    {
+        if (cameraJoc == null)
+            cameraJoc = Camera.main;
+
+        if (cameraJoc == null || string.IsNullOrWhiteSpace(escenaSeguent)
+            || !Application.CanStreamedLevelBeLoaded(escenaSeguent))
+        {
+            Debug.LogError("Assigna la càmera i afegeix l’escena següent al perfil de compilació.", this);
+            enabled = false;
+            return;
+        }
+
+        if (puntsEspiral == null || puntsEspiral.childCount < 2)
+        {
+            Debug.LogError("Assigna PuntsEspiral amb almenys dos punts fills en ordre.", this);
+            enabled = false;
+            return;
+        }
+
+        punts = new Vector2[puntsEspiral.childCount];
+        distancies = new float[punts.Length];
+
+        for (int i = 0; i < punts.Length; i++)
+        {
+            // Els fills poden tenir un pare desplaçat respecte d'EspiralMassa.
+            punts[i] = transform.InverseTransformPoint(puntsEspiral.GetChild(i).position);
+
+            if (i > 0 && (punts[i] - punts[i - 1]).sqrMagnitude < 0.000001f)
+            {
+                Debug.LogError($"Separa els punts consecutius {i - 1} i {i} de PuntsEspiral.", this);
+                enabled = false;
+                return;
+            }
+        }
+
+        passadis = GetComponent<PolygonCollider2D>();
+        GeneraEspiral();
+        MostraPercentatge(0);
+    }
+
+    private void GeneraEspiral()
+    {
+        linia = GetComponent<LineRenderer>();
+        linia.useWorldSpace = false;
+        linia.loop = false;
+        linia.widthCurve = AnimationCurve.Constant(0f, 1f, 1f);
+        linia.widthMultiplier = amplada;
+        linia.numCapVertices = SegmentsTap;
+        linia.positionCount = punts.Length;
+
+        for (int i = 0; i < punts.Length; i++)
+        {
+            linia.SetPosition(i, punts[i]);
+
+            if (i > 0)
+                distancies[i] = distancies[i - 1] + Vector2.Distance(punts[i - 1], punts[i]);
+        }
+
+        Vector2[] normals = new Vector2[punts.Length];
+        for (int i = 0; i < punts.Length; i++)
+        {
+            int anterior = Mathf.Max(0, i - 1);
+            int seguent = Mathf.Min(NombreSegments, i + 1);
+            Vector2 tangent = (punts[seguent] - punts[anterior]).normalized;
+            normals[i] = new Vector2(-tangent.y, tangent.x);
+        }
+
+        float migAmple = amplada / 2f;
+        List<Vector2> contorn = new List<Vector2>();
+
+        for (int i = 0; i < punts.Length; i++)
+            contorn.Add(punts[i] + normals[i] * migAmple);
+
+        AfegeixTap(contorn, punts[NombreSegments], normals[NombreSegments], migAmple);
+
+        for (int i = NombreSegments; i >= 0; i--)
+            contorn.Add(punts[i] - normals[i] * migAmple);
+
+        AfegeixTap(contorn, punts[0], -normals[0], migAmple);
+
+        passadis.offset = Vector2.zero;
+        passadis.isTrigger = true;
+        passadis.pathCount = 1;
+        passadis.SetPath(0, contorn.ToArray());
+        Physics2D.SyncTransforms();
+
+        if (marcaInici != null)
+            marcaInici.position = transform.TransformPoint(punts[0]);
+
+        if (marcaFinal != null)
+            marcaFinal.position = transform.TransformPoint(punts[NombreSegments]);
+    }
+
+    private static void AfegeixTap(
+        List<Vector2> contorn, Vector2 centre, Vector2 normal, float radi)
+    {
+        Vector2 tangent = new Vector2(normal.y, -normal.x);
+
+        for (int i = 1; i < SegmentsTap; i++)
+        {
+            float angle = Mathf.PI * i / SegmentsTap;
+            Vector2 direccio = normal * Mathf.Cos(angle) + tangent * Mathf.Sin(angle);
+            contorn.Add(centre + direccio * radi);
+        }
+    }
+
+    private void Update()
+    {
+        if (acabat)
+            return;
+
+        Mouse ratoli = Mouse.current;
+
+        if (ratoli == null)
+        {
+            if (resseguint)
+                Acaba(false);
+
+            return;
+        }
+
+        Vector2 pantalla = ratoli.position.ReadValue();
+        bool clic = ratoli.leftButton.wasPressedThisFrame;
+        bool premut = ratoli.leftButton.isPressed;
+
+        Ray raig = cameraJoc.ScreenPointToRay(pantalla);
+        Plane pla = new Plane(transform.forward, transform.position);
+
+        if (!pla.Raycast(raig, out float distanciaRaig))
+        {
+            if (resseguint)
+                Acaba(false);
+            return;
+        }
+
+        Vector2 posicio = transform.InverseTransformPoint(raig.GetPoint(distanciaRaig));
+
+        if (!resseguint)
+        {
+            if (clic && premut && Vector2.Distance(posicio, punts[0]) <= amplada * 0.45f
+                && EsDinsDelPassadis(posicio))
+            {
+                resseguint = true;
+                posicioAnterior = posicio;
+            }
+
+            return;
+        }
+
+        if (!premut)
+        {
+            Acaba(false);
+            return;
+        }
+
+        int passos = Mathf.Max(1,
+            Mathf.CeilToInt(Vector2.Distance(posicioAnterior, posicio) / (amplada / 5f)));
+
+        for (int i = 1; i <= passos; i++)
+        {
+            Vector2 mostra = Vector2.Lerp(posicioAnterior, posicio, (float)i / passos);
+
+            if (!EsDinsDelPassadis(mostra))
+            {
+                Acaba(false);
+                return;
+            }
+
+            distanciaMaxima = Mathf.Max(distanciaMaxima, DistanciaSobreEspiral(mostra));
+
+            if (Vector2.Distance(mostra, punts[NombreSegments]) <= amplada * 0.3f)
+            {
+                Acaba(true);
+                return;
+            }
+        }
+
+        posicioAnterior = posicio;
+        MostraPercentatge(CalculaPercentatge());
+    }
+
+    private bool EsDinsDelPassadis(Vector2 posicioLocal)
+    {
+        return passadis.OverlapPoint(transform.TransformPoint(posicioLocal));
+    }
+
+    private float DistanciaSobreEspiral(Vector2 posicio)
+    {
+        float millorDistanciaQuadrada = float.PositiveInfinity;
+        float distanciaRecorreguda = 0f;
+
+        for (int i = 0; i < NombreSegments; i++)
+        {
+            Vector2 segment = punts[i + 1] - punts[i];
+            float t = Mathf.Clamp01(Vector2.Dot(posicio - punts[i], segment) / segment.sqrMagnitude);
+            Vector2 projeccio = punts[i] + segment * t;
+            float distanciaQuadrada = (posicio - projeccio).sqrMagnitude;
+
+            if (distanciaQuadrada < millorDistanciaQuadrada)
+            {
+                millorDistanciaQuadrada = distanciaQuadrada;
+                distanciaRecorreguda = Mathf.Lerp(distancies[i], distancies[i + 1], t);
+            }
+        }
+
+        return distanciaRecorreguda;
+    }
+
+    private void ActualitzarColor(int percentatge)
+    {
+        int tram = percentatge / 25;
+
+        if (tram == ultimTram)
+        { return; }
+
+        ultimTram = tram;
+
+        GradientColorKey[] colors;
+
+        if (tram == 0 || tram == 4)
+        {
+            Color color = colorPendent;
+
+            if(tram == 4)
+            { color = colorSuperat; }
+
+            colors = new GradientColorKey[]
+                {
+                    new GradientColorKey(color, 0f),
+                    new GradientColorKey(color, 1f)
+                };
+        }
+        else
+        {
+            float limit = tram * 0.25f;
+
+            colors = new GradientColorKey[]
+                 {
+                    new GradientColorKey(colorSuperat, 0f),
+                    new GradientColorKey(colorSuperat, limit),
+                    new GradientColorKey(colorPendent, limit + 0.001f),
+                    new GradientColorKey(colorPendent, 1f)
+                 };
+
+        }
+
+        Gradient gradient = new Gradient();
+
+        gradient.SetKeys(colors, new GradientAlphaKey[]
+        {
+            new GradientAlphaKey(1f, 0f),
+            new GradientAlphaKey(1f, 1f)
+        });
+
+        linia.colorGradient = gradient;
+    }
+    private int CalculaPercentatge()
+    {
+        return Mathf.Min(99, Mathf.FloorToInt(100f * distanciaMaxima / distancies[NombreSegments]));
+    }
+
+    private void MostraPercentatge(int percentatge)
+    {
+        if (textPercentatge != null)
+            textPercentatge.text = $"Enrotllat: {percentatge}%";
+
+        // Actualitza el color durant el recorregut fins al 100%
+        ActualitzarColor(percentatge);
+    }
+
+    private void Acaba(bool completat)
+    {
+        acabat = true;
+        UltimPercentatge = completat ? 100 : CalculaPercentatge();
+        MostraPercentatge(UltimPercentatge);
+        StartCoroutine(CarregaEscenaSeguent());
+    }
+
+    private IEnumerator CarregaEscenaSeguent()
+    {
+        yield return new WaitForSecondsRealtime(0.7f);
+        SceneManager.LoadScene(escenaSeguent);
+    }
+}

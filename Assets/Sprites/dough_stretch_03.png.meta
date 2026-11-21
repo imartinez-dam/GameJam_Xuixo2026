@@ -1,0 +1,767 @@
+fileFormatVersion: 2
+guid: 6ba2f1f08330cdc43a8e4573890796d6
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -8867578633539724212
+    second: dough_stretch_03_0
+  - first:
+      213: 59044907449163669
+    second: dough_stretch_03_1
+  - first:
+      213: 4172268139830155743
+    second: dough_stretch_03_2
+  - first:
+      213: -5215938780014231799
+    second: dough_stretch_03_3
+  - first:
+      213: 8091955638250397388
+    second: dough_stretch_03_4
+  - first:
+      213: -7801272952904513037
+    second: dough_stretch_03_5
+  - first:
+      213: -6085469588199721733
+    second: dough_stretch_03_6
+  - first:
+      213: 7577899125475226721
+    second: dough_stretch_03_7
+  - first:
+      213: -1338156971812500252
+    second: dough_stretch_03_8
+  - first:
+      213: -3418718481017155733
+    second: dough_stretch_03_9
+  - first:
+      213: 989238041949747892
+    second: dough_stretch_03_10
+  - first:
+      213: 2195288447294234755
+    second: dough_stretch_03_11
+  - first:
+      213: -3185083387017569147
+    second: dough_stretch_03_12
+  - first:
+      213: -8419516202852586142
+    second: dough_stretch_03_13
+  - first:
+      213: -918314646361991448
+    second: dough_stretch_03_14
+  - first:
+      213: -4364082490165063092
+    second: dough_stretch_03_15
+  - first:
+      213: -5359309143420976366
+    second: dough_stretch_03_16
+  - first:
+      213: 4391780197512566598
+    second: dough_stretch_03_17
+  - first:
+      213: 4445645066369310712
+    second: dough_stretch_03_18
+  - first:
+      213: 5413809010206804443
+    second: dough_stretch_03_19
+  - first:
+      213: 6601434903179752209
+    second: dough_stretch_03_20
+  - first:
+      213: 6444508625923993102
+    second: dough_stretch_03_21
+  - first:
+      213: 6813768583630069656
+    second: dough_stretch_03_22
+  - first:
+      213: 6690957800026216854
+    second: dough_stretch_03_23
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: dough_stretch_03_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 757
+        width: 132
+        height: 367
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c4c550a173800f480800000000000000
+      internalID: -8867578633539724212
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dough_stretch_03_1
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 923
+        width: 343
+        height: 231
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 59f9d4ec705c1d000800000000000000
+      internalID: 59044907449163669
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dough_stretch_03_2
+      rect:
+        serializedVersion: 2
+        x: 555
+        y: 746
+        width: 575
+        height: 436
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd9914e74cfd6e930800000000000000
+      internalID: 4172268139830155743
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dough_stretch_03_3
+      rect:
+        serializedVersion: 2
+        x: 1089
+        y: 955
+        width: 13
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 90f311790534d97b0800000000000000
+      internalID: -5215938780014231799
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dough_stretch_03_4
+      rect:
+        serializedVersion: 2
+        x: 1125
+        y: 980
+        width: 98
+        height: 113
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cce522ca7c66c4070800000000000000
+      internalID: 8091955638250397388
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dough_stretch_03_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 47
+        width: 1239
+        height: 703
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3f9834e059f4cb390800000000000000
+      internalID: -7801272952904513037
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dough_stretch_03_6
+      rect:
+        serializedVersion: 2
+        x: 346
+        y: 787
+        width: 48
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bf4b9e7d6a11c8ba0800000000000000
+      internalID: -6085469588199721733
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dough_stretch_03_7
+      rect:
+        serializedVersion: 2
+        x: 354
+        y: 763
+        width: 35
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 164b1bdea1b1a2960800000000000000
+      internalID: 7577899125475226721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dough_stretch_03_8
+      rect:
+        serializedVersion: 2
+        x: 470
+        y: 746
+        width: 40
+        height: 85
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ec4761f259ed6de0800000000000000
+      internalID: -1338156971812500252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dough_stretch_03_9
+      rect:
+        serializedVersion: 2
+        x: 579
+        y: 771
+        width: 9
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6fc8e797a54e80d0800000000000000
+      internalID: -3418718481017155733
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dough_stretch_03_10
+      rect:
+        serializedVersion: 2
+        x: 585
+        y: 789
+        width: 9
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4bab7b802ca7abd00800000000000000
+      internalID: 989238041949747892
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dough_stretch_03_11
+      rect:
+        serializedVersion: 2
+        x: 593
+        y: 799
+        width: 9
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 380ed70363b377e10800000000000000
+      internalID: 2195288447294234755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dough_stretch_03_12
+      rect:
+        serializedVersion: 2
+        x: 601
+        y: 802
+        width: 15
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 58cd1d8e88f4cc3d0800000000000000
+      internalID: -3185083387017569147
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dough_stretch_03_13
+      rect:
+        serializedVersion: 2
+        x: 697
+        y: 803
+        width: 24
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26d635c3f9ed72b80800000000000000
+      internalID: -8419516202852586142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dough_stretch_03_14
+      rect:
+        serializedVersion: 2
+        x: 715
+        y: 809
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e61e8fc1bd7143f0800000000000000
+      internalID: -918314646361991448
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dough_stretch_03_15
+      rect:
+        serializedVersion: 2
+        x: 739
+        y: 328
+        width: 16
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c42953bd81aaf63c0800000000000000
+      internalID: -4364082490165063092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dough_stretch_03_16
+      rect:
+        serializedVersion: 2
+        x: 890
+        y: 306
+        width: 9
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 213c3e89ab8ef95b0800000000000000
+      internalID: -5359309143420976366
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dough_stretch_03_17
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 292
+        width: 27
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 647d45c22dcb2fc30800000000000000
+      internalID: 4391780197512566598
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dough_stretch_03_18
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 294
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ff196242aa12bd30800000000000000
+      internalID: 4445645066369310712
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dough_stretch_03_19
+      rect:
+        serializedVersion: 2
+        x: 818
+        y: 293
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd98f277c96b12b40800000000000000
+      internalID: 5413809010206804443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dough_stretch_03_20
+      rect:
+        serializedVersion: 2
+        x: 506
+        y: 280
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 113f4eb81120d9b50800000000000000
+      internalID: 6601434903179752209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dough_stretch_03_21
+      rect:
+        serializedVersion: 2
+        x: 1157
+        y: 282
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e0ee328637e7f6950800000000000000
+      internalID: 6444508625923993102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dough_stretch_03_22
+      rect:
+        serializedVersion: 2
+        x: 788
+        y: 264
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 89f9cf80d6e5f8e50800000000000000
+      internalID: 6813768583630069656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dough_stretch_03_23
+      rect:
+        serializedVersion: 2
+        x: 786
+        y: 49
+        width: 13
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 69911bd3bae0bdc50800000000000000
+      internalID: 6690957800026216854
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      dough_stretch_03_0: -8867578633539724212
+      dough_stretch_03_1: 59044907449163669
+      dough_stretch_03_10: 989238041949747892
+      dough_stretch_03_11: 2195288447294234755
+      dough_stretch_03_12: -3185083387017569147
+      dough_stretch_03_13: -8419516202852586142
+      dough_stretch_03_14: -918314646361991448
+      dough_stretch_03_15: -4364082490165063092
+      dough_stretch_03_16: -5359309143420976366
+      dough_stretch_03_17: 4391780197512566598
+      dough_stretch_03_18: 4445645066369310712
+      dough_stretch_03_19: 5413809010206804443
+      dough_stretch_03_2: 4172268139830155743
+      dough_stretch_03_20: 6601434903179752209
+      dough_stretch_03_21: 6444508625923993102
+      dough_stretch_03_22: 6813768583630069656
+      dough_stretch_03_23: 6690957800026216854
+      dough_stretch_03_3: -5215938780014231799
+      dough_stretch_03_4: 8091955638250397388
+      dough_stretch_03_5: -7801272952904513037
+      dough_stretch_03_6: -6085469588199721733
+      dough_stretch_03_7: 7577899125475226721
+      dough_stretch_03_8: -1338156971812500252
+      dough_stretch_03_9: -3418718481017155733
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

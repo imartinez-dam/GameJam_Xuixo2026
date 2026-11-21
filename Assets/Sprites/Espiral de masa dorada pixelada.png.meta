@@ -1,0 +1,1105 @@
+fileFormatVersion: 2
+guid: 3d77cb7b234183847bf19143ed9a305b
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -8339582324947580741
+    second: Espiral de masa dorada pixelada_0
+  - first:
+      213: 3178702828552531602
+    second: Espiral de masa dorada pixelada_1
+  - first:
+      213: 5852234997338230647
+    second: Espiral de masa dorada pixelada_2
+  - first:
+      213: 2170540164679699117
+    second: Espiral de masa dorada pixelada_3
+  - first:
+      213: -3696198301051468271
+    second: Espiral de masa dorada pixelada_4
+  - first:
+      213: -5231640638796723054
+    second: Espiral de masa dorada pixelada_5
+  - first:
+      213: 7798065313054810240
+    second: Espiral de masa dorada pixelada_6
+  - first:
+      213: -2733743325594698318
+    second: Espiral de masa dorada pixelada_7
+  - first:
+      213: -1652693092110501495
+    second: Espiral de masa dorada pixelada_8
+  - first:
+      213: 6574477911431101393
+    second: Espiral de masa dorada pixelada_9
+  - first:
+      213: -1968666054164062560
+    second: Espiral de masa dorada pixelada_10
+  - first:
+      213: -8277515688065481185
+    second: Espiral de masa dorada pixelada_11
+  - first:
+      213: -6348103972876350871
+    second: Espiral de masa dorada pixelada_12
+  - first:
+      213: -6997684835112630300
+    second: Espiral de masa dorada pixelada_13
+  - first:
+      213: -262283890574291471
+    second: Espiral de masa dorada pixelada_14
+  - first:
+      213: -6122369944103200413
+    second: Espiral de masa dorada pixelada_15
+  - first:
+      213: -2585318940516365439
+    second: Espiral de masa dorada pixelada_16
+  - first:
+      213: 4408494312474068804
+    second: Espiral de masa dorada pixelada_17
+  - first:
+      213: -1932978670321062237
+    second: Espiral de masa dorada pixelada_18
+  - first:
+      213: 7024934116416009836
+    second: Espiral de masa dorada pixelada_19
+  - first:
+      213: -2284577625642417753
+    second: Espiral de masa dorada pixelada_20
+  - first:
+      213: -7166596058888153515
+    second: Espiral de masa dorada pixelada_21
+  - first:
+      213: 8401658040954042665
+    second: Espiral de masa dorada pixelada_22
+  - first:
+      213: 5641849780950267297
+    second: Espiral de masa dorada pixelada_23
+  - first:
+      213: -8300821533939704814
+    second: Espiral de masa dorada pixelada_24
+  - first:
+      213: 5231315595562188351
+    second: Espiral de masa dorada pixelada_25
+  - first:
+      213: 6470628253020573975
+    second: Espiral de masa dorada pixelada_26
+  - first:
+      213: -7447672928939403230
+    second: Espiral de masa dorada pixelada_27
+  - first:
+      213: 7047024005594054098
+    second: Espiral de masa dorada pixelada_28
+  - first:
+      213: -6056818067855148166
+    second: Espiral de masa dorada pixelada_29
+  - first:
+      213: -1161879975282395692
+    second: Espiral de masa dorada pixelada_30
+  - first:
+      213: 3501119569119903779
+    second: Espiral de masa dorada pixelada_31
+  - first:
+      213: 8105275742592979753
+    second: Espiral de masa dorada pixelada_32
+  - first:
+      213: 2706148545545755289
+    second: Espiral de masa dorada pixelada_33
+  - first:
+      213: 7952111497360146172
+    second: Espiral de masa dorada pixelada_34
+  - first:
+      213: -4031332655828167729
+    second: Espiral de masa dorada pixelada_35
+  - first:
+      213: -5889662770003117188
+    second: Espiral de masa dorada pixelada_36
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_0
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 23
+        width: 1349
+        height: 1031
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bb88f5a7f0ad34c80800000000000000
+      internalID: -8339582324947580741
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_1
+      rect:
+        serializedVersion: 2
+        x: 451
+        y: 1014
+        width: 20
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 29e276e81650d1c20800000000000000
+      internalID: 3178702828552531602
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_2
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 1019
+        width: 7
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 77f447e39b0573150800000000000000
+      internalID: 5852234997338230647
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_3
+      rect:
+        serializedVersion: 2
+        x: 490
+        y: 1024
+        width: 9
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: daa837e97ce4f1e10800000000000000
+      internalID: 2170540164679699117
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_4
+      rect:
+        serializedVersion: 2
+        x: 514
+        y: 1016
+        width: 19
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 116cc6e7a3774bcc0800000000000000
+      internalID: -3696198301051468271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_5
+      rect:
+        serializedVersion: 2
+        x: 563
+        y: 1034
+        width: 8
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 29c0604be8a7567b0800000000000000
+      internalID: -5231640638796723054
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_6
+      rect:
+        serializedVersion: 2
+        x: 949
+        y: 1004
+        width: 76
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0806de7161b483c60800000000000000
+      internalID: 7798065313054810240
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_7
+      rect:
+        serializedVersion: 2
+        x: 473
+        y: 1024
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2bd35daedeacf0ad0800000000000000
+      internalID: -2733743325594698318
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_8
+      rect:
+        serializedVersion: 2
+        x: 403
+        y: 998
+        width: 19
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 989f20a93647019e0800000000000000
+      internalID: -1652693092110501495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_9
+      rect:
+        serializedVersion: 2
+        x: 518
+        y: 998
+        width: 13
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1dbb08ec3dc3d3b50800000000000000
+      internalID: 6574477911431101393
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_10
+      rect:
+        serializedVersion: 2
+        x: 530
+        y: 1004
+        width: 7
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0ae5e2877a4eda4e0800000000000000
+      internalID: -1968666054164062560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_11
+      rect:
+        serializedVersion: 2
+        x: 252
+        y: 802
+        width: 29
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f16422e765b502d80800000000000000
+      internalID: -8277515688065481185
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_12
+      rect:
+        serializedVersion: 2
+        x: 1193
+        y: 770
+        width: 82
+        height: 106
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 96a8573021107e7a0800000000000000
+      internalID: -6348103972876350871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_13
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 776
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4e749f0c7ba33ee90800000000000000
+      internalID: -6997684835112630300
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_14
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 784
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1fd0300f03e2c5cf0800000000000000
+      internalID: -262283890574291471
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_15
+      rect:
+        serializedVersion: 2
+        x: 1250
+        y: 749
+        width: 29
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 369533a39f8f80ba0800000000000000
+      internalID: -6122369944103200413
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_16
+      rect:
+        serializedVersion: 2
+        x: 1247
+        y: 749
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 18bce670f1a1f1cd0800000000000000
+      internalID: -2585318940516365439
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_17
+      rect:
+        serializedVersion: 2
+        x: 1270
+        y: 709
+        width: 53
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 447c851583e1e2d30800000000000000
+      internalID: 4408494312474068804
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_18
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 726
+        width: 16
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ae2b15042eac25e0800000000000000
+      internalID: -1932978670321062237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_19
+      rect:
+        serializedVersion: 2
+        x: 207
+        y: 711
+        width: 18
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c66bf73fb549d7160800000000000000
+      internalID: 7024934116416009836
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_20
+      rect:
+        serializedVersion: 2
+        x: 1255
+        y: 549
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a147c1f0cc8b40e0800000000000000
+      internalID: -2284577625642417753
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_21
+      rect:
+        serializedVersion: 2
+        x: 1262
+        y: 549
+        width: 11
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 556d14dcad22b8c90800000000000000
+      internalID: -7166596058888153515
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_22
+      rect:
+        serializedVersion: 2
+        x: 1266
+        y: 231
+        width: 172
+        height: 327
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 929be5f697fa89470800000000000000
+      internalID: 8401658040954042665
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_23
+      rect:
+        serializedVersion: 2
+        x: 1289
+        y: 556
+        width: 14
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a5f7a5eb70eb4e40800000000000000
+      internalID: 5641849780950267297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_24
+      rect:
+        serializedVersion: 2
+        x: 1249
+        y: 543
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 21c5c956bce8dcc80800000000000000
+      internalID: -8300821533939704814
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_25
+      rect:
+        serializedVersion: 2
+        x: 1257
+        y: 520
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f3ef17541dd599840800000000000000
+      internalID: 5231315595562188351
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_26
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 460
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 711d5eefc1a4cc950800000000000000
+      internalID: 6470628253020573975
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_27
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 459
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 228164b3eec84a890800000000000000
+      internalID: -7447672928939403230
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_28
+      rect:
+        serializedVersion: 2
+        x: 195
+        y: 411
+        width: 30
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2dd75111ffe0cc160800000000000000
+      internalID: 7047024005594054098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_29
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 337
+        width: 49
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a7b7354ce0cd1fba0800000000000000
+      internalID: -6056818067855148166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_30
+      rect:
+        serializedVersion: 2
+        x: 266
+        y: 274
+        width: 39
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d537a1815c20efe0800000000000000
+      internalID: -1161879975282395692
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_31
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 229
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3208f89c2b9769030800000000000000
+      internalID: 3501119569119903779
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_32
+      rect:
+        serializedVersion: 2
+        x: 868
+        y: 118
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 92358d32859bb7070800000000000000
+      internalID: 8105275742592979753
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_33
+      rect:
+        serializedVersion: 2
+        x: 879
+        y: 112
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 99ad1bea3cb2e8520800000000000000
+      internalID: 2706148545545755289
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_34
+      rect:
+        serializedVersion: 2
+        x: 184
+        y: 103
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cfe737656439b5e60800000000000000
+      internalID: 7952111497360146172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_35
+      rect:
+        serializedVersion: 2
+        x: 844
+        y: 90
+        width: 12
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc31ee5fe44dd08c0800000000000000
+      internalID: -4031332655828167729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Espiral de masa dorada pixelada_36
+      rect:
+        serializedVersion: 2
+        x: 314
+        y: 15
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c7bfe1b5ae6b34ea0800000000000000
+      internalID: -5889662770003117188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Espiral de masa dorada pixelada_0: -8339582324947580741
+      Espiral de masa dorada pixelada_1: 3178702828552531602
+      Espiral de masa dorada pixelada_10: -1968666054164062560
+      Espiral de masa dorada pixelada_11: -8277515688065481185
+      Espiral de masa dorada pixelada_12: -6348103972876350871
+      Espiral de masa dorada pixelada_13: -6997684835112630300
+      Espiral de masa dorada pixelada_14: -262283890574291471
+      Espiral de masa dorada pixelada_15: -6122369944103200413
+      Espiral de masa dorada pixelada_16: -2585318940516365439
+      Espiral de masa dorada pixelada_17: 4408494312474068804
+      Espiral de masa dorada pixelada_18: -1932978670321062237
+      Espiral de masa dorada pixelada_19: 7024934116416009836
+      Espiral de masa dorada pixelada_2: 5852234997338230647
+      Espiral de masa dorada pixelada_20: -2284577625642417753
+      Espiral de masa dorada pixelada_21: -7166596058888153515
+      Espiral de masa dorada pixelada_22: 8401658040954042665
+      Espiral de masa dorada pixelada_23: 5641849780950267297
+      Espiral de masa dorada pixelada_24: -8300821533939704814
+      Espiral de masa dorada pixelada_25: 5231315595562188351
+      Espiral de masa dorada pixelada_26: 6470628253020573975
+      Espiral de masa dorada pixelada_27: -7447672928939403230
+      Espiral de masa dorada pixelada_28: 7047024005594054098
+      Espiral de masa dorada pixelada_29: -6056818067855148166
+      Espiral de masa dorada pixelada_3: 2170540164679699117
+      Espiral de masa dorada pixelada_30: -1161879975282395692
+      Espiral de masa dorada pixelada_31: 3501119569119903779
+      Espiral de masa dorada pixelada_32: 8105275742592979753
+      Espiral de masa dorada pixelada_33: 2706148545545755289
+      Espiral de masa dorada pixelada_34: 7952111497360146172
+      Espiral de masa dorada pixelada_35: -4031332655828167729
+      Espiral de masa dorada pixelada_36: -5889662770003117188
+      Espiral de masa dorada pixelada_4: -3696198301051468271
+      Espiral de masa dorada pixelada_5: -5231640638796723054
+      Espiral de masa dorada pixelada_6: 7798065313054810240
+      Espiral de masa dorada pixelada_7: -2733743325594698318
+      Espiral de masa dorada pixelada_8: -1652693092110501495
+      Espiral de masa dorada pixelada_9: 6574477911431101393
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
