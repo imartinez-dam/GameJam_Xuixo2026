@@ -144,9 +144,9 @@ public class MassaScript : MonoBehaviour
          }
      }
 
-    private void OnGUI()
-    {
-        if (escenaAcabada)
-            StageTransition.DrawResult("Dough stretched");
-    }
+    //private void OnGUI()
+    //{
+    //    if (escenaAcabada)
+    //        StageTransition.DrawResult("Dough stretched");
+    //}
 }
