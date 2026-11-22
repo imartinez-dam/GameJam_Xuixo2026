@@ -48,6 +48,7 @@ public class DialogueManager : MonoBehaviour
 
     private void Update()
     {
+        if (Xuixo.SortidaJoc.BloquejaControls) return;
         if (!IsRunning || !AdvancePressed()) return;
 
         if (_isTyping) CompleteLine();
@@ -89,7 +90,8 @@ public class DialogueManager : MonoBehaviour
         float t = 0f;
         while (t < popDuration)
         {
-            t += Time.unscaledDeltaTime;
+            if (!Xuixo.SortidaJoc.BloquejaControls)
+                t += Time.unscaledDeltaTime;
             target.localScale = Vector3.one * Mathf.Lerp(0.85f, 1f, t / popDuration);
             yield return null;
         }
@@ -105,7 +107,8 @@ public class DialogueManager : MonoBehaviour
 
         while (_current.bodyText.maxVisibleCharacters < total)
         {
-            visible += charsPerSecond * Time.unscaledDeltaTime;
+            if (!Xuixo.SortidaJoc.BloquejaControls)
+                visible += charsPerSecond * Time.unscaledDeltaTime;
             _current.bodyText.maxVisibleCharacters = Mathf.Min(total, Mathf.FloorToInt(visible));
             yield return null;
         }

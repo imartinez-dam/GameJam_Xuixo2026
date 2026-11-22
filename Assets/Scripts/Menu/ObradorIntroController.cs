@@ -33,7 +33,7 @@ public class ObradorIntroController : MonoBehaviour
 
     private void Update()
     {
-        if (_started) return;
+        if (Xuixo.SortidaJoc.BloquejaControls || _started) return;
 
         var kb = Keyboard.current;
         if (kb == null) return;
@@ -46,7 +46,7 @@ public class ObradorIntroController : MonoBehaviour
 
     private void OnPlayClicked()
     {
-        if (_started) return;
+        if (Xuixo.SortidaJoc.BloquejaControls || _started) return;
         _started = true;
 
         Xuixo.GameManager.BeginRun();
@@ -59,6 +59,7 @@ public class ObradorIntroController : MonoBehaviour
         yield return Fade(posterGroup, 1f, 0f);
         posterGroup.gameObject.SetActive(false);
         yield return null; // evita que la mateixa pulsació avanci el diàleg
+        yield return Xuixo.SortidaJoc.Espera(0f);
         dialogueManager.Play(introDialogue);
     }
 
@@ -67,6 +68,7 @@ public class ObradorIntroController : MonoBehaviour
     private IEnumerator LoadNextRoutine()
     {
         yield return Fade(fadeOverlay, 0f, 1f);
+        yield return Xuixo.SortidaJoc.Espera(0f);
 
         if (!Application.CanStreamedLevelBeLoaded(nextSceneName))
         {
@@ -83,6 +85,12 @@ public class ObradorIntroController : MonoBehaviour
         float t = 0f;
         while (t < fadeDuration)
         {
+            if (Xuixo.SortidaJoc.BloquejaControls)
+            {
+                yield return null;
+                continue;
+            }
+
             t += Time.unscaledDeltaTime;
             group.alpha = Mathf.Lerp(from, to, t / fadeDuration);
             yield return null;

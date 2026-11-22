@@ -31,13 +31,11 @@ namespace Xuixo.UI
         //string url = "Application.streamingAssetsPath + \"/Videos/videofinal.mp4\";
         private void Update()
         {
-            if (!creditsFinished || leaving || Keyboard.current == null)
+            if (SortidaJoc.BloquejaControls || !creditsFinished || leaving || Keyboard.current == null)
                 return;
 
             if (Keyboard.current.rKey.wasPressedThisFrame)
                 Restart();
-            else if (Keyboard.current.escapeKey.wasPressedThisFrame)
-                Quit();
         }
 
         private void ShowControls(VideoPlayer player)
@@ -104,12 +102,7 @@ namespace Xuixo.UI
             if (leaving)
                 return;
 
-#if UNITY_EDITOR
-            Debug.Log("El botó Sortir tanca el joc només a la build.", this);
-#else
-            leaving = true;
-            Application.Quit();
-#endif
+            SortidaJoc.DemanaSortir();
         }
     }
 }

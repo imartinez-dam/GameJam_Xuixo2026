@@ -16,6 +16,9 @@ MonoBehaviour:
   botoNormal: {fileID: 2800000, guid: 5a2a26b5b1c478e4eb2bdf0f9e9194a6, type: 3}
   botoHover: {fileID: 2800000, guid: 8afda7fb210734e43b0568c013ecd1a3, type: 3}
   botoPremut: {fileID: 2800000, guid: 76d2d7ece4d6f2247bb630de43a4c43c, type: 3}
+  logotip: {fileID: 2800000, guid: 266eca255493eb843b3a31a41b38783c, type: 3}
+  indicadorActiu: {fileID: 2800000, guid: 0b34afeedd4029b4380ff597bc52b5b7, type: 3}
+  indicadorInactiu: {fileID: 2800000, guid: b6ebff16924f2ac409698968c299a53c, type: 3}
   voraPanell: 16
   voraBotoX: 28
   voraBotoY: 24

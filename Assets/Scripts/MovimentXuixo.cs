@@ -29,7 +29,7 @@ public class MovimentXuixo : MonoBehaviour
 
     private void Update()
     {
-        if (acabat) return;
+        if (SortidaJoc.BloquejaControls || acabat) return;
 
         transform.Translate(Vector2.right * velocitat * direccio * Time.deltaTime);
 

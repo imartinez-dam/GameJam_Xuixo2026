@@ -33,6 +33,7 @@ public class EnrotllarMassa : MonoBehaviour
     private GameObject panellResultat;
     private RectTransform etiquetaInici;
     private RectTransform fletxaInici;
+    private TextMeshProUGUI textEtiquetaInici;
 
     private int ultimTram = -1;
 
@@ -44,6 +45,7 @@ public class EnrotllarMassa : MonoBehaviour
     private Vector2 posicioAnterior;
     private float distanciaMaxima;
     private bool resseguint;
+    private bool esperaRepresa;
     private bool acabat;
     private enum FinalIntent { Completat, ForaDelCami, BotoAlliberat, RatoliNoDisponible }
 
@@ -138,6 +140,7 @@ public class EnrotllarMassa : MonoBehaviour
             GameObject titol = new GameObject("Text", typeof(RectTransform));
             titol.transform.SetParent(etiquetaInici, false);
             TextMeshProUGUI textInici = titol.AddComponent<TextMeshProUGUI>();
+            textEtiquetaInici = textInici;
             RectTransform marcText = textInici.rectTransform;
             marcText.anchorMin = Vector2.zero;
             marcText.anchorMax = Vector2.one;
@@ -175,7 +178,8 @@ public class EnrotllarMassa : MonoBehaviour
             return;
 
         RectTransform pare = (RectTransform)etiquetaInici.parent;
-        Vector2 pantalla = cameraJoc.WorldToScreenPoint(marcaInici.position);
+        Vector3 referencia = esperaRepresa ? transform.TransformPoint(posicioAnterior) : marcaInici.position;
+        Vector2 pantalla = cameraJoc.WorldToScreenPoint(referencia);
         if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(pare, pantalla, null, out Vector2 punt))
             return;
 
@@ -298,6 +302,19 @@ public class EnrotllarMassa : MonoBehaviour
         if (acabat)
             return;
 
+        if (SortidaJoc.BloquejaControls)
+        {
+            if (resseguint && !esperaRepresa)
+            {
+                esperaRepresa = true;
+                if (textEtiquetaInici != null)
+                    textEtiquetaInici.text = "Reprèn aquí";
+                if (soEnrotllar != null)
+                    soEnrotllar.Pause();
+            }
+            return;
+        }
+
         Mouse ratoli = Mouse.current;
 
         if (ratoli == null)
@@ -323,6 +340,22 @@ public class EnrotllarMassa : MonoBehaviour
         }
 
         Vector2 posicio = transform.InverseTransformPoint(raig.GetPoint(distanciaRaig));
+
+        // El clic al diàleg no compta com a part del recorregut.
+        if (esperaRepresa)
+        {
+            if (premut && Vector2.Distance(posicio, posicioAnterior) <= amplada * 0.45f
+                && EsDinsDelPassadis(posicio))
+            {
+                esperaRepresa = false;
+                posicioAnterior = posicio;
+                if (textEtiquetaInici != null)
+                    textEtiquetaInici.text = "Mantén premut";
+                if (soEnrotllar != null)
+                    soEnrotllar.UnPause();
+            }
+            return;
+        }
 
         if (!resseguint)
         {

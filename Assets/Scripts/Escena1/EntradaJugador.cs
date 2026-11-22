@@ -54,11 +54,5 @@ namespace Xuixo.Escena1
             return comandament != null && comandament.buttonSouth.wasPressedThisFrame;
         }
 
-        /// <summary>Sortir de la partida (ESC).</summary>
-        public static bool Sortir()
-        {
-            Keyboard teclat = Keyboard.current;
-            return teclat != null && teclat.escapeKey.wasPressedThisFrame;
-        }
     }
 }

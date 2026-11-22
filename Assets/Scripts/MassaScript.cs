@@ -28,6 +28,7 @@ public class MassaScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {   
+        if (SortidaJoc.BloquejaControls) return;
 
         if (Input.GetKeyDown(KeyCode.Space) && intents > 0)
         {

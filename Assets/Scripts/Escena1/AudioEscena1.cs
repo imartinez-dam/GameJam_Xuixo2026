@@ -58,7 +58,7 @@ namespace Xuixo.Escena1
 
         void Update()
         {
-            if (masa == null) return;
+            if (SortidaJoc.BloquejaControls || masa == null) return;
 
             if (Keyboard.current != null && Keyboard.current.mKey.wasPressedThisFrame)
             {

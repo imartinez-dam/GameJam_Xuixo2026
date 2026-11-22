@@ -39,16 +39,13 @@ namespace Xuixo.Escena1
 
         void Update()
         {
+            if (SortidaJoc.BloquejaControls) return;
             if (final != null && final.Acabat && EntradaJugador.Reintentar())
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
                 return;
             }
 
-#if UNITY_EDITOR
-            if (EntradaJugador.Sortir())
-                UnityEditor.EditorApplication.isPlaying = false;
-#endif
         }
 
         void OnGUI()

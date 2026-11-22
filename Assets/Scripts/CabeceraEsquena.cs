@@ -1,9 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Xuixo.Escena1;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
+using Xuixo.UI;
 
 namespace Xuixo
 {
@@ -46,15 +44,26 @@ namespace Xuixo
                 return;
 
             _instancia = new GameObject("CabeceraEsquena");
-            _instancia.AddComponent<CabeceraEsquena>();
+            CabeceraEsquena capcalera = _instancia.AddComponent<CabeceraEsquena>();
+            TemaPastisseria tema = TemaPastisseria.Carrega();
+            if (tema != null)
+            {
+                capcalera.logotipTema = tema.logotip;
+                capcalera.indicadorActiuTema = tema.indicadorActiu;
+                capcalera.indicadorInactiuTema = tema.indicadorInactiu;
+            }
             Object.DontDestroyOnLoad(_instancia);
         }
+
+        private Texture2D logotipTema;
+        private Texture2D indicadorActiuTema;
+        private Texture2D indicadorInactiuTema;
 
         private void OnGUI()
         {
             float k = Mathf.Max(0.65f, Screen.height / 1080f);
 
-            // Titol: el logotip de l'Escena 1, sinó el logo_xuixo d'Art/UI (editor),
+            // Titol: el logotip de l'Escena 1, sinó el logotip del tema compartit,
             // i si no, el text "XUIXO 2026".
             Texture2D logo = logotip;
             if (logo == null)
@@ -68,7 +77,7 @@ namespace Xuixo
                 }
             }
             if (logo == null)
-                logo = LogoXuixo();
+                logo = logotipTema;
 
             if (logo != null)
             {
@@ -93,8 +102,8 @@ namespace Xuixo
 
             int escena = Mathf.Clamp(SceneManager.GetActiveScene().buildIndex - 1, 0, total - 1);
 
-            Texture2D dotActiu = indicadorActiu != null ? indicadorActiu : IndicadorActiuAsset();
-            Texture2D dotInactiu = indicadorInactiu != null ? indicadorInactiu : IndicadorInactiuAsset();
+            Texture2D dotActiu = indicadorActiu != null ? indicadorActiu : indicadorActiuTema;
+            Texture2D dotInactiu = indicadorInactiu != null ? indicadorInactiu : indicadorInactiuTema;
 
             for (int i = 0; i < total; i++)
             {
@@ -119,40 +128,6 @@ namespace Xuixo
             }
 
             GUI.color = Color.white;
-        }
-
-        private static Texture2D _logoAuto;
-        private static Texture2D _indicadorAutoActiu;
-        private static Texture2D _indicadorAutoInactiu;
-
-        /// <summary>Logo_xuixo de Art/UI (en editor); en build, reserveda el text "XUIXO 2026").</summary>
-        private static Texture2D LogoXuixo()
-        {
-            if (_logoAuto != null) return _logoAuto;
-#if UNITY_EDITOR
-            _logoAuto = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Art/UI/logo_xuixo.png");
-#endif
-            return _logoAuto;
-        }
-
-        /// <summary>indicador_actiu.png de Art/UI (en editor); en build, reserves Dot()).</summary>
-        private static Texture2D IndicadorActiuAsset()
-        {
-            if (_indicadorAutoActiu != null) return _indicadorAutoActiu;
-#if UNITY_EDITOR
-            _indicadorAutoActiu = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Art/UI/indicador_actiu.png");
-#endif
-            return _indicadorAutoActiu;
-        }
-
-        /// <summary>indicador_inactiu.png de Art/UI (en editor); en build, reserves Dot()).</summary>
-        private static Texture2D IndicadorInactiuAsset()
-        {
-            if (_indicadorAutoInactiu != null) return _indicadorAutoInactiu;
-#if UNITY_EDITOR
-            _indicadorAutoInactiu = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Art/UI/indicador_inactiu.png");
-#endif
-            return _indicadorAutoInactiu;
         }
 
         /// <summary>Punt arrodonit blanc d'indicador de l'escena (per si no hi ha els altres assets).</summary>
