@@ -8,6 +8,7 @@ public class MassaScript : MonoBehaviour
     public int intents;
     public float puntuacio;
     public MouBarra Barra;
+    [SerializeField] private AudioSource soEstirar;
     [Header("Transició")]
     [SerializeField] private string escenaSeguent = "Crema";
     [SerializeField, Min(0f)] private float pausaResultat = 1.5f;
@@ -38,7 +39,7 @@ public class MassaScript : MonoBehaviour
             {
                 Barra.Paused = true;
                 intents--;
-                
+                if (soEstirar != null) soEstirar.Play();
                 float trueprog = Barra.progress%1;
 
                 if (trueprog > 0.5) trueprog = 1f-trueprog;
@@ -131,6 +132,8 @@ public class MassaScript : MonoBehaviour
             Barra.progress = 2-Barra.progress+recorregut;
             if(Barra.progress>2) Barra.progress = 0;
         }
+
+        if (soEstirar != null) soEstirar.Stop();
 
         if (intents != 0)
         {
