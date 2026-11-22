@@ -12,6 +12,7 @@ public class MovimentXuixo : MonoBehaviour
     private float incrementvelocitat = 1f;
     private int direccio = 2;
     public GameObject crema;
+    [SerializeField] private AudioSource soCrema;
 
     [Header("Transició")]
     [SerializeField] private string escenaSeguent = "EnrotllarMassa";
@@ -53,7 +54,15 @@ public class MovimentXuixo : MonoBehaviour
         if (!gotaEnCurs || acabat) return;
 
         gotaEnCurs = false;
-        if (encert) AugmentarVelocitat();
+
+        if (encert)
+        {
+            AugmentarVelocitat();
+            if(soCrema != null)
+            {
+                soCrema.Play();
+            }
+        }
 
         if (intents > 0) return;
 
