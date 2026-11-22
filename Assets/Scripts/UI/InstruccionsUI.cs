@@ -36,8 +36,7 @@ namespace Xuixo.UI
                 } },
             { "Escena1_Bol", new[]
                 {
-                    new Pas("← →", "Balanceja la massa per carregar impuls i sortir del bol!"),
-                    new Pas("R", "Torna-ho a provar"),
+                    new Pas("← →", "Balanceja la massa per carregar impuls i sortir del bol!"),                   
                 } },
             { "Estirar", new[]
                 {

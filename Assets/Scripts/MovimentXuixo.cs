@@ -62,11 +62,8 @@ public class MovimentXuixo : MonoBehaviour
         StartCoroutine(StageTransition.Advance(GameManager.CustardStage, punts, pausaResultat, escenaSeguent, this));
     }
 
-    private void OnGUI()
-    {
-        if (acabat)
-            StageTransition.DrawResult("Custard stage complete");
-    }
+
+
 
     private void AugmentarVelocitat()
     {

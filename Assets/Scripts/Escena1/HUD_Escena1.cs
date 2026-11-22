@@ -22,8 +22,6 @@ namespace Xuixo.Escena1
         public Texture2D botoPremut;
         public Texture2D botoNormal;
 
-        GUIStyle _titol;
-        GUIStyle _subtitol;
         GUIStyle _consell;
         GUIStyle _petit;
         GUIStyle _gran;
@@ -57,172 +55,13 @@ namespace Xuixo.Escena1
             float k = Mathf.Max(0.65f, Screen.height / 1080f);
             PreparaEstils(k);
 
-            // Titol
-            if (logotip != null)
-            {
-                GUI.color = Color.white;
-                GUI.DrawTexture(new Rect(34f * k, 18f * k, 300f * k, 166f * k), logotip, ScaleMode.ScaleToFit, true);
-            }
-            else
-            {
-                GUI.color = new Color(0.29f, 0.18f, 0.09f, 1f);
-                GUI.Label(new Rect(48f * k, 26f * k, 1200f * k, 80f * k), "XUIXO 2026", _titol);
-            }
-
-            // Consell segons l'estat (sense la banda fosca semitransparent)
-           // string consell = TextConsell();
-            //GUI.color = new Color(0.99f, 0.95f, 0.87f, 1f);
-            //GUI.Label(new Rect(0f, Screen.height - 780f * k, Screen.width, 80f * k), consell, _consell);
-
-            // Indicador d'escena (1 de 6)
-            if (indicadorActiu != null && indicadorInactiu != null)
-            {
-                const int total = 6;
-                float d = 22f * k;
-                float sep = 10f * k;
-                float ample = total * d + (total - 1) * sep;
-                float x0 = Screen.width - ample - 36f * k;
-                float y0 = 30f * k;
-                GUI.color = Color.white;
-                for (int i = 0; i < total; i++)
-                    GUI.DrawTexture(new Rect(x0 + i * (d + sep), y0, d, d), i == 0 ? indicadorActiu : indicadorInactiu, ScaleMode.ScaleToFit, true);
-            }
-
-            // Barra d'impuls
-            if (!masa.HaSortit)
-            {
-                float bw = 560f * k;
-                float bh = 48f * k;
-                float bx = (Screen.width - bw) * 0.5f;
-                float by = Screen.height - 650f * k;
-
-                if (barraMarc != null && barraFarciment != null)
-                {
-                    GUI.color = Color.white;
-                    GUI.DrawTexture(new Rect(bx, by, bw, bh), barraMarc, ScaleMode.StretchToFill, true);
-
-                    float fx = bx + 12f * k;
-                    float fy = by + 12f * k;
-                    float fw = 536f * k;
-                    float fh = 24f * k;
-                    float progres = Mathf.Clamp01(masa.Carrega);
-
-                    GUI.BeginGroup(new Rect(fx, fy, fw * progres, fh));
-                    GUI.DrawTexture(new Rect(0f, 0f, fw, fh), barraFarciment, ScaleMode.StretchToFill, true);
-                    GUI.EndGroup();
-                }
-                else
-                {
-                    float bhSimple = 28f * k;
-                    float bySimple = Screen.height - 370f * k;
-
-                    GUI.color = new Color(0.99f, 0.96f, 0.90f, 1f);
-                    GUI.DrawTexture(new Rect(bx, bySimple, 520f * k, bhSimple), _blanc);
-
-                    GUI.color = new Color(0.93f, 0.55f, 0.18f, 1f);
-                    GUI.DrawTexture(new Rect(bx, bySimple, 520f * k * Mathf.Clamp01(masa.Carrega), bhSimple), _blanc);
-                }
-
-                GUI.color = Color.black;
-                GUI.Label(new Rect(bx, by - 40f * k, bw, 36f * k), "NIVELL DE IMPULS", _mitjaNegreta);
-
-                // Botó premut just a la dreta de la barra
-                Texture2D boto = botoPremut != null ? botoPremut : botoNormal;
-                if (boto != null)
-                {
-                    float ibw = 56f * k;
-                    float ibh = 30f * k;
-                    GUI.color = Color.white;
-                    GUI.DrawTexture(new Rect(bx + bw + 12f * k, by + 6f * k, ibw, ibh), boto, ScaleMode.ScaleToFit, true);
-                }
-            }
-
-            // Pantalla final (quan encara no hi ha escena 2)
-            if (final != null && final.Acabat)
-            {
-                float aw = 1040f * k;
-                float ah = 460f * k;
-                float ax = (Screen.width - aw) * 0.5f;
-                float ay = (Screen.height - ah) * 0.5f;
-
-                if (panell != null)
-                    Dibuixa9Tall(panell, new Rect(ax, ay, aw, ah), 22f * k);
-                else
-                {
-                    GUI.color = new Color(0.98f, 0.94f, 0.86f, 1f);
-                    GUI.DrawTexture(new Rect(ax, ay, aw, ah), _blanc);
-                }
-
-                GUI.color = new Color(0.29f, 0.18f, 0.09f, 1f);
-                GUI.Label(new Rect(ax, ay + 60f * k, aw, 90f * k), "ESCENA 1 COMPLETADA", _gran);
-
-                GUI.color = new Color(0.36f, 0.26f, 0.16f, 1f);
-                GUI.Label(new Rect(ax + 60f * k, ay + 175f * k, aw - 120f * k, 130f * k),
-                    "La massa ha arribat al corró del cuiner.\nAra toca estirar-la...", _mitja);
-
-                GUI.color = new Color(0.45f, 0.35f, 0.24f, 1f);
-                GUI.Label(new Rect(ax + 60f * k, ay + 315f * k, aw - 120f * k, 60f * k),
-                    "Propera pantalla: Escena 2 (a carrec d'un altre company)", _petit);
-
-                GUI.color = new Color(0.93f, 0.55f, 0.18f, 1f);
-                GUI.Label(new Rect(ax, ay + ah - 80f * k, aw, 60f * k), "Prem R per tornar-ho a jugar", _petit);
-            }
+            // Capçalera (logotip/títol + indicador d'escena) ja la genera CabeceraEsquena.
         }
-
-        /// <summary>Dibuixa una textura en 9 talls (cantonades fixes) amb GUI immediat.</summary>
-        void Dibuixa9Tall(Texture2D textura, Rect r, float marge)
-        {
-            GUI.color = Color.white;
-
-            float tw = textura.width;
-            float th = textura.height;
-            marge = Mathf.Clamp(marge, 1f, Mathf.Min(r.width, r.height) * 0.45f);
-
-            float u = marge / tw;
-            float v = marge / th;
-
-            float wMitja = r.width - marge * 2f;
-            float hMitja = r.height - marge * 2f;
-
-            // Cantonades
-            GUI.DrawTextureWithTexCoords(new Rect(r.x, r.y, marge, marge), textura, new Rect(0f, 1f - v, u, v));
-            GUI.DrawTextureWithTexCoords(new Rect(r.x + r.width - marge, r.y, marge, marge), textura, new Rect(1f - u, 1f - v, u, v));
-            GUI.DrawTextureWithTexCoords(new Rect(r.x, r.y + r.height - marge, marge, marge), textura, new Rect(0f, 0f, u, v));
-            GUI.DrawTextureWithTexCoords(new Rect(r.x + r.width - marge, r.y + r.height - marge, marge, marge), textura, new Rect(1f - u, 0f, u, v));
-
-            // Costats
-            GUI.DrawTextureWithTexCoords(new Rect(r.x + marge, r.y, wMitja, marge), textura, new Rect(u, 1f - v, 1f - u * 2f, v));
-            GUI.DrawTextureWithTexCoords(new Rect(r.x + marge, r.y + r.height - marge, wMitja, marge), textura, new Rect(u, 0f, 1f - u * 2f, v));
-            GUI.DrawTextureWithTexCoords(new Rect(r.x, r.y + marge, marge, hMitja), textura, new Rect(0f, v, u, 1f - v * 2f));
-            GUI.DrawTextureWithTexCoords(new Rect(r.x + r.width - marge, r.y + marge, marge, hMitja), textura, new Rect(1f - u, v, u, 1f - v * 2f));
-
-            // Centre
-            GUI.DrawTextureWithTexCoords(new Rect(r.x + marge, r.y + marge, wMitja, hMitja), textura, new Rect(u, v, 1f - u * 2f, 1f - v * 2f));
-        }
-
-        //string TextConsell()
-        //{
-        //    switch (masa.EstatActual)
-        //    {
-        //        case MasaJugador.Estat.DinsBol:
-        //            if (masa.Carrega > 0.7f)
-        //                return "Ja casi hi ets! Segueix remenant";
-        //            return "Mou la massa amb les fletxes ← → per sortir del bol";
-        //        case MasaJugador.Estat.Sortint:
-        //            return "Fora del bol! Sempre surts cap a la dreta";
-        //        case MasaJugador.Estat.Carrera:
-        //            return "Endavant! Arriba fins al corró del cuiner";
-        //        default:
-        //            return "";
-        //    }
-        //}
-
+       
         void PreparaEstils(float k)
         {
-            if (_titol == null)
+            if (_consell == null)
             {
-                _titol = new GUIStyle(GUI.skin.label) { alignment = TextAnchor.UpperLeft, fontStyle = FontStyle.Bold };
-                _subtitol = new GUIStyle(GUI.skin.label) { alignment = TextAnchor.UpperLeft, fontStyle = FontStyle.Italic };
                 _consell = new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter, fontStyle = FontStyle.Bold };
                 _petit = new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter };
                 _gran = new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter, fontStyle = FontStyle.Bold };
@@ -230,8 +69,6 @@ namespace Xuixo.Escena1
                 _mitjaNegreta = new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter, fontStyle = FontStyle.Bold, wordWrap = true };
             }
 
-            _titol.fontSize = Mathf.RoundToInt(58f * k);
-            _subtitol.fontSize = Mathf.RoundToInt(26f * k);
             _consell.fontSize = Mathf.RoundToInt(34f * k);
             _petit.fontSize = Mathf.RoundToInt(22f * k);
             _gran.fontSize = Mathf.RoundToInt(46f * k);
