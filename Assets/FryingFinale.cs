@@ -1,6 +1,8 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Xuixo;
 using Xuixo.UI;
@@ -48,6 +50,7 @@ public sealed class FryingFinale : MonoBehaviour
     [SerializeField, Range(0.1f, 0.95f)] private float secondTargetEnd = 0.35f;
 
     [Header("Ending hooks")]
+    [SerializeField, Min(0f)] private float creditsDelay = 3f;
     [SerializeField] private UnityEvent onXuixoEnding = new UnityEvent();
     [SerializeField] private UnityEvent onWonkyEnding = new UnityEvent();
     [SerializeField] private UnityEvent onExtraWonkyEnding = new UnityEvent();
@@ -290,6 +293,7 @@ public sealed class FryingFinale : MonoBehaviour
                         if (outcome == Outcome.Wonky) onWonkyEnding.Invoke();
                         else if (outcome == Outcome.Croissant) onCroissantEnding.Invoke();
                         else onExtraWonkyEnding.Invoke();
+                        StartCoroutine(LoadCredits());
                     }
                 }
                 break;
@@ -300,9 +304,23 @@ public sealed class FryingFinale : MonoBehaviour
                     if (awardAudio && victoryJingle) awardAudio.PlayOneShot(victoryJingle);
                     SetStage(Stage.Finished, "Millor Xuixo del Món", "I el premi al Millor Xuixo del Món és per a… tu!");
                     onXuixoEnding.Invoke();
+                    StartCoroutine(LoadCredits());
                 }
                 break;
         }
+    }
+
+    private IEnumerator LoadCredits()
+    {
+        const string creditsScene = "Credits";
+        if (!Application.CanStreamedLevelBeLoaded(creditsScene))
+        {
+            Debug.LogError("Add the Credits scene to the active Build Profile.", this);
+            yield break;
+        }
+
+        yield return new WaitForSecondsRealtime(creditsDelay);
+        SceneManager.LoadScene(creditsScene);
     }
 
     private void StartReveal(bool friedSuccessfully)
