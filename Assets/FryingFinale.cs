@@ -163,6 +163,8 @@ public sealed class FryingFinale : MonoBehaviour
 
     private void Update()
     {
+        if (SortidaJoc.BloquejaControls) return;
+
         bool pressed = Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame;
         elapsed += Time.deltaTime;
         AnimateBubbles(stage == Stage.Flip || stage == Stage.TakeOut || stage == Stage.Bubbling);
@@ -319,7 +321,7 @@ public sealed class FryingFinale : MonoBehaviour
             yield break;
         }
 
-        yield return new WaitForSecondsRealtime(creditsDelay);
+        yield return SortidaJoc.Espera(creditsDelay);
         SceneManager.LoadScene(creditsScene);
     }
 

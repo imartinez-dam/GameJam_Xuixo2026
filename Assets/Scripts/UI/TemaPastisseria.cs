@@ -15,6 +15,9 @@ namespace Xuixo.UI
         public Texture2D botoNormal;
         public Texture2D botoHover;
         public Texture2D botoPremut;
+        public Texture2D logotip;
+        public Texture2D indicadorActiu;
+        public Texture2D indicadorInactiu;
 
         [Header("Vores per al 9 talls (píxels)")]
         public int voraPanell = 16;

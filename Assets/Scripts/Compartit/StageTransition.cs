@@ -12,7 +12,7 @@ namespace Xuixo
         {
             GameManager.Instance?.TryAddScore(stage, points);
 
-            yield return new WaitForSecondsRealtime(pause);
+            yield return SortidaJoc.Espera(pause);
 
             if (string.IsNullOrWhiteSpace(nextScene) || !Application.CanStreamedLevelBeLoaded(nextScene))
             {
