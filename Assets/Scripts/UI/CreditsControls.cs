@@ -15,10 +15,20 @@ namespace Xuixo.UI
         private bool creditsFinished;
         private bool leaving;
 
-        private void Awake() => video = GetComponent<VideoPlayer>();
+        private void Start()
+        {
+            video.Play();
+        }
+        private void Awake()
+        {
+            video = GetComponent<VideoPlayer>();
+            video.source = VideoSource.Url; 
+            video.url = Application.streamingAssetsPath + "/Videos/videofinal.mp4";
+        }
         private void OnEnable() => video.loopPointReached += ShowControls;
         private void OnDisable() => video.loopPointReached -= ShowControls;
 
+        //string url = "Application.streamingAssetsPath + \"/Videos/videofinal.mp4\";
         private void Update()
         {
             if (!creditsFinished || leaving || Keyboard.current == null)
