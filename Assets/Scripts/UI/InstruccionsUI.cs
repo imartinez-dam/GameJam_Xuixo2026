@@ -211,7 +211,7 @@ namespace Xuixo.UI
             ContentSizeFitter ajustXip = xip.AddComponent<ContentSizeFitter>();
             ajustXip.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
 
-            CreaText(xip.transform, "Tecla", pas.Tecla, 24f, TemaPastisseria.ColorTextClar, true);
+            CreaText(xip.transform, "Tecla", pas.Tecla, 24f, new Color32(26, 16, 10, 255), true);
             CreaText(fila.transform, "Accio", pas.Accio, 26f, TemaPastisseria.ColorTextFosc, false);
         }
 

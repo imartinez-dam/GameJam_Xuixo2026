@@ -28,6 +28,8 @@ public class EnrotllarMassa : MonoBehaviour
     private const int SegmentsTap = 8;
 
     private LineRenderer linia;
+    private TMP_Text textProgresLateral;
+    private GameObject panellResultat;
 
     private int ultimTram = -1;
 
@@ -80,23 +82,20 @@ public class EnrotllarMassa : MonoBehaviour
 
         passadis = GetComponent<PolygonCollider2D>();
         GeneraEspiral();
-        AplicaEstilResultat();
+        PreparaPanells();
         MostraPercentatge(0);
     }
 
-    private void AplicaEstilResultat()
+    private void PreparaPanells()
     {
         if (textPercentatge == null)
             return;
 
         TemaPastisseria tema = TemaPastisseria.Carrega();
-        if (tema == null)
-            return;
+        Sprite pergami = tema != null ? tema.SpritePanell : EstilPastisseria.Arrodonit;
 
         RectTransform text = textPercentatge.rectTransform;
-        GameObject panell = new GameObject("PergamiResultat", typeof(RectTransform));
-        RectTransform fons = (RectTransform)panell.transform;
-        fons.SetParent(text.parent, false);
+        RectTransform fons = CreaPergami("PergamiResultat", text.parent, pergami);
         fons.SetSiblingIndex(text.GetSiblingIndex());
         fons.anchorMin = text.anchorMin;
         fons.anchorMax = text.anchorMax;
@@ -104,15 +103,46 @@ public class EnrotllarMassa : MonoBehaviour
         fons.anchoredPosition = text.anchoredPosition;
         fons.sizeDelta = text.sizeDelta;
 
-        Image imatge = panell.AddComponent<Image>();
-        imatge.sprite = tema.SpritePanell;
-        imatge.type = Image.Type.Sliced;
-        imatge.raycastTarget = false;
-
         textPercentatge.color = TemaPastisseria.ColorTextFosc;
         textPercentatge.fontSize = 34f;
         textPercentatge.margin = new Vector4(24f, 0f, 24f, 0f);
         textPercentatge.raycastTarget = false;
+        panellResultat = fons.gameObject;
+        panellResultat.SetActive(false);
+        textPercentatge.gameObject.SetActive(false);
+
+        RectTransform lateral = CreaPergami("PergamiProgres", text.parent, pergami);
+        lateral.anchorMin = lateral.anchorMax = new Vector2(1f, 0.5f);
+        lateral.pivot = new Vector2(1f, 0.5f);
+        lateral.anchoredPosition = new Vector2(-48f, 0f);
+        lateral.sizeDelta = new Vector2(264f, 160f);
+
+        GameObject etiqueta = new GameObject("ProgresLateral", typeof(RectTransform));
+        etiqueta.transform.SetParent(lateral, false);
+        textProgresLateral = etiqueta.AddComponent<TextMeshProUGUI>();
+        RectTransform rect = textProgresLateral.rectTransform;
+        rect.anchorMin = Vector2.zero;
+        rect.anchorMax = Vector2.one;
+        rect.offsetMin = new Vector2(12f, 8f);
+        rect.offsetMax = new Vector2(-12f, -8f);
+        textProgresLateral.font = textPercentatge.font;
+        textProgresLateral.color = TemaPastisseria.ColorTextFosc;
+        textProgresLateral.fontSize = 28f;
+        textProgresLateral.alignment = TextAlignmentOptions.Center;
+        textProgresLateral.raycastTarget = false;
+    }
+
+    private static RectTransform CreaPergami(string nom, Transform pare, Sprite sprite)
+    {
+        GameObject panell = new GameObject(nom, typeof(RectTransform));
+        RectTransform rect = (RectTransform)panell.transform;
+        rect.SetParent(pare, false);
+
+        Image imatge = panell.AddComponent<Image>();
+        imatge.sprite = sprite;
+        imatge.type = Image.Type.Sliced;
+        imatge.raycastTarget = false;
+        return rect;
     }
 
     private void GeneraEspiral()
@@ -323,8 +353,8 @@ public class EnrotllarMassa : MonoBehaviour
 
     private void MostraPercentatge(int percentatge)
     {
-        if (textPercentatge != null)
-            textPercentatge.text = $"Enrotllat: {percentatge}%";
+        if (textProgresLateral != null)
+            textProgresLateral.text = $"<size=72><b>{percentatge}%</b></size>\nEnrotllat";
 
         ActualitzaLiniaProgres(percentatge);
     }
@@ -346,9 +376,13 @@ public class EnrotllarMassa : MonoBehaviour
         };
 
         if (textPercentatge != null)
-            textPercentatge.text = $"{missatge} · {UltimPercentatge}%";
+        {
+            textPercentatge.text = missatge;
+            panellResultat.SetActive(true);
+            textPercentatge.gameObject.SetActive(true);
+        }
 
-        ActualitzaLiniaProgres(UltimPercentatge);
+        MostraPercentatge(UltimPercentatge);
         int punts = Mathf.RoundToInt(UltimPercentatge / 100f * puntsMaxims);
         StartCoroutine(StageTransition.Advance(GameManager.RollStage, punts, pausaResultat, escenaSeguent, this));
     }
