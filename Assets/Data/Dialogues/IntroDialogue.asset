@@ -16,10 +16,10 @@ MonoBehaviour:
   - speaker: 0
     text: Benvinguts al Concurs anual de xuixos de Girona!
   - speaker: 0
-    text: "Nom\xE9s hi pot haver un millor xuixo... i tens dos minuts per fer-lo."
+    text: Supera les proves, prepara el teu xuixo i presenta'l al jurat.
   - speaker: 1
-    text: "Dos minuts? F\xE0cil. La massa ja est\xE0 a punt!"
+    text: "I si ho faig b\xE9, ser\xE9 el millor pastisser de la ciutat?"
   - speaker: 0
-    text: "Compte: cada prova t\xE9 les seves regles. I les regles poden canviar."
+    text: "Ho veurem... per\xF2 compte, que les regles poden canviar."
   - speaker: 1
-    text: "Perfecte. Aquest any, el millor xuixo ser\xE0 el meu!"
+    text: Perfecte. Som-hi!
