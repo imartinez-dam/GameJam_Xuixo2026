@@ -62,37 +62,17 @@ namespace Xuixo.Escena1
             {
                 GUI.color = Color.white;
                 GUI.DrawTexture(new Rect(34f * k, 18f * k, 300f * k, 166f * k), logotip, ScaleMode.ScaleToFit, true);
-                //GUI.color = new Color(0.30f, 0.19f, 0.10f, 0.9f);
-                //GUI.Label(new Rect(38f * k, 186f * k, 1200f * k, 50f * k), "Escena 1 · El bol de la massa", _subtitol);
             }
             else
             {
-                GUI.color = new Color(0.29f, 0.18f, 0.09f, 0.92f);
+                GUI.color = new Color(0.29f, 0.18f, 0.09f, 1f);
                 GUI.Label(new Rect(48f * k, 26f * k, 1200f * k, 80f * k), "XUIXO 2026", _titol);
-
-                //GUI.color = new Color(0.36f, 0.26f, 0.16f, 0.85f);
-                //GUI.Label(new Rect(50f * k, 100f * k, 1200f * k, 50f * k), "Escena 1 · El bol de la massa", _subtitol);
             }
 
-            // Consell segons l'estat (amb banda fosca per llegir-se sobre la fusta)
-            string consell = TextConsell();
-            GUI.color = new Color(0.07f, 0.05f, 0.03f, 0.42f);
-            GUI.DrawTexture(new Rect(0f, Screen.height - 790f * k, Screen.width, 64f * k), _blanc);
-
-            GUI.color = new Color(0.99f, 0.95f, 0.87f, 0.98f);
-            GUI.Label(new Rect(0f, Screen.height - 780f * k, Screen.width, 80f * k), consell, _consell);
-
-            //// Icones de les fletxes al costat del consell
-            //if (iconaEsquerra != null && iconaDreta != null && !string.IsNullOrEmpty(consell) &&
-            //    masa.EstatActual == MasaJugador.Estat.DinsBol)
-            //{
-            //    float midax = _consell.CalcSize(new GUIContent(consell)).x;
-            //    float ix = (Screen.width - midax) * 0.5f;
-            //    float iy = Screen.height - 760f * k;
-            //    GUI.color = Color.white;
-            //    GUI.DrawTexture(new Rect(ix - 48f * k, iy, 34f * k, 34f * k), iconaEsquerra, ScaleMode.ScaleToFit, true);
-            //    GUI.DrawTexture(new Rect(ix + midax + 14f * k, iy, 34f * k, 34f * k), iconaDreta, ScaleMode.ScaleToFit, true);
-            //}
+            // Consell segons l'estat (sense la banda fosca semitransparent)
+           // string consell = TextConsell();
+            //GUI.color = new Color(0.99f, 0.95f, 0.87f, 1f);
+            //GUI.Label(new Rect(0f, Screen.height - 780f * k, Screen.width, 80f * k), consell, _consell);
 
             // Indicador d'escena (1 de 6)
             if (indicadorActiu != null && indicadorInactiu != null)
@@ -136,10 +116,7 @@ namespace Xuixo.Escena1
                     float bhSimple = 28f * k;
                     float bySimple = Screen.height - 370f * k;
 
-                    GUI.color = new Color(0.29f, 0.18f, 0.09f, 0.22f);
-                    GUI.DrawTexture(new Rect(bx - 5f * k, bySimple - 5f * k, 520f * k + 10f * k, bhSimple + 10f * k), _blanc);
-
-                    GUI.color = new Color(0.99f, 0.96f, 0.90f, 0.9f);
+                    GUI.color = new Color(0.99f, 0.96f, 0.90f, 1f);
                     GUI.DrawTexture(new Rect(bx, bySimple, 520f * k, bhSimple), _blanc);
 
                     GUI.color = new Color(0.93f, 0.55f, 0.18f, 1f);
@@ -160,13 +137,6 @@ namespace Xuixo.Escena1
                 }
             }
 
-            // Fos final
-            if (final != null && final.Opacitat > 0f)
-            {
-                GUI.color = new Color(0.06f, 0.05f, 0.04f, final.Opacitat);
-                GUI.DrawTexture(new Rect(0f, 0f, Screen.width, Screen.height), _blanc);
-            }
-
             // Pantalla final (quan encara no hi ha escena 2)
             if (final != null && final.Acabat)
             {
@@ -179,7 +149,7 @@ namespace Xuixo.Escena1
                     Dibuixa9Tall(panell, new Rect(ax, ay, aw, ah), 22f * k);
                 else
                 {
-                    GUI.color = new Color(0.98f, 0.94f, 0.86f, 0.97f);
+                    GUI.color = new Color(0.98f, 0.94f, 0.86f, 1f);
                     GUI.DrawTexture(new Rect(ax, ay, aw, ah), _blanc);
                 }
 
@@ -208,7 +178,6 @@ namespace Xuixo.Escena1
             float th = textura.height;
             marge = Mathf.Clamp(marge, 1f, Mathf.Min(r.width, r.height) * 0.45f);
 
-            // Proporcions del marge dins la textura
             float u = marge / tw;
             float v = marge / th;
 
@@ -231,22 +200,22 @@ namespace Xuixo.Escena1
             GUI.DrawTextureWithTexCoords(new Rect(r.x + marge, r.y + marge, wMitja, hMitja), textura, new Rect(u, v, 1f - u * 2f, 1f - v * 2f));
         }
 
-        string TextConsell()
-        {
-            switch (masa.EstatActual)
-            {
-                case MasaJugador.Estat.DinsBol:
-                    if (masa.Carrega > 0.7f)
-                        return "Ja casi hi ets! Segueix remenant";
-                    return "Mou la massa amb les fletxes ← → per sortir del bol";
-                case MasaJugador.Estat.Sortint:
-                    return "Fora del bol! Sempre surts cap a la dreta";
-                case MasaJugador.Estat.Carrera:
-                    return "Endavant! Arriba fins al corró del cuiner";
-                default:
-                    return "";
-            }
-        }
+        //string TextConsell()
+        //{
+        //    switch (masa.EstatActual)
+        //    {
+        //        case MasaJugador.Estat.DinsBol:
+        //            if (masa.Carrega > 0.7f)
+        //                return "Ja casi hi ets! Segueix remenant";
+        //            return "Mou la massa amb les fletxes ← → per sortir del bol";
+        //        case MasaJugador.Estat.Sortint:
+        //            return "Fora del bol! Sempre surts cap a la dreta";
+        //        case MasaJugador.Estat.Carrera:
+        //            return "Endavant! Arriba fins al corró del cuiner";
+        //        default:
+        //            return "";
+        //    }
+        //}
 
         void PreparaEstils(float k)
         {

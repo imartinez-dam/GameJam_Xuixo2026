@@ -77,10 +77,7 @@ public class MassaScript : MonoBehaviour
         Vector2 targetPosition = originalPos;
         targetPosition.x -= 1.4f;
 
-        if(animar)
-        {
-            
-        }
+
         while (elapsedTime < duracio)
         {
             float t = elapsedTime / duracio;
