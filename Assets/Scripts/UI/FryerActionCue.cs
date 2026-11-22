@@ -6,14 +6,15 @@ namespace Xuixo.UI
     [RequireComponent(typeof(CanvasRenderer))]
     public sealed class FryerActionCue : MaskableGraphic
     {
-        public enum ActionIcon { Drop, Flip, Lift, Sugar }
+        public enum ActionIcon { Drop, Flip, Lift, Sugar, Rock }
 
         private static readonly string[][] Icons =
         {
             new[] { "###........", "...##......", ".....#.....", "......#....", ".......#...", ".....#####.", "......###..", ".......#...", "...........", ".##.##.##..", "..##.##.##." },
             new[] { "...####....", "..##..##...", ".##....##..", ".#......#..", "......#####", ".......###.", "........#..", "...........", "..#######..", ".#########.", "..#######.." },
             new[] { ".......#...", "......###..", ".....#####.", ".......#...", "..#.#..#...", "..#.#......", "..###......", ".##.##.....", "###.#####..", ".#########.", "..#######.." },
-            new[] { "...####....", "..#.#.##...", "..######...", "..######...", "...#####...", "....###....", "...........", "..#..#..#..", "....#..#...", "..#######..", ".#########." }
+            new[] { "...####....", "..#.#.##...", "..######...", "..######...", "...#####...", "....###....", "...........", "..#..#..#..", "....#..#...", "..#######..", ".#########." },
+            new[] { "..#.....#..", ".###...###.", "###.....###", "..#######..", "...........", "....###....", "...#####...", "#..#####..#", ".#########.", "..#######..", "...#####..." }
         };
 
         // Pixel glyphs spell “Espai” without a font dependency.
@@ -34,12 +35,24 @@ namespace Xuixo.UI
         private ActionIcon icon;
         private bool showKey = true;
         private float keyShownAt = -1f;
+        private int rockDirection;
 
         public void Show(ActionIcon action, bool pressNow)
         {
             if (pressNow && (!showKey || action != icon || !enabled)) keyShownAt = Time.unscaledTime;
             icon = action;
             showKey = pressNow;
+            enabled = true;
+            SetVerticesDirty();
+        }
+
+        public void ShowRocking(int direction)
+        {
+            if (enabled && icon == ActionIcon.Rock && rockDirection == direction) return;
+            icon = ActionIcon.Rock;
+            rockDirection = direction;
+            showKey = false;
+            keyShownAt = -1f;
             enabled = true;
             SetVerticesDirty();
         }
@@ -66,6 +79,13 @@ namespace Xuixo.UI
                 for (int x = 0; x < pixels[y].Length; x++)
                     if (pixels[y][x] == '#') Square(mesh, center, new Rect(x - 19, 5 - y, 1, 1), unit, Gold);
 
+            if (icon == ActionIcon.Rock)
+            {
+                DrawArrowKey(mesh, center, unit, -1, -1f);
+                DrawArrowKey(mesh, center, unit, 1, 13f);
+                return;
+            }
+
             if (!showKey) return;
 
             float age = keyShownAt < 0f ? 1f : Mathf.Clamp01((Time.unscaledTime - keyShownAt) / 0.14f);
@@ -78,6 +98,22 @@ namespace Xuixo.UI
             for (int y = 0; y < Espai.Length; y++)
                 for (int x = 0; x < Espai[y].Length; x++)
                     if (Espai[y][x] == '1') Square(mesh, keyCenter, new Rect(x - 9.5f, 3.5f - y, 1, 1), keyUnit, Ink);
+        }
+
+        private void DrawArrowKey(VertexHelper mesh, Vector2 center, float unit, int direction, float offset)
+        {
+            bool pressed = rockDirection == direction;
+            Vector2 keyCenter = center + new Vector2(offset, pressed ? -1f : 0f) * unit;
+            Square(mesh, keyCenter, new Rect(-6, -6, 12, 12), unit, Ink);
+            Square(mesh, keyCenter, new Rect(-5, -5, 10, 10), unit, Brass);
+            Square(mesh, keyCenter, new Rect(-5, -3, 10, 8), unit,
+                pressed ? new Color32(255, 246, 204, 255) : Gold);
+            Square(mesh, keyCenter, new Rect(-3, 0, 6, 2), unit, Ink);
+            for (int step = 0; step < 3; step++)
+            {
+                int x = direction < 0 ? -4 + step : 3 - step;
+                Square(mesh, keyCenter, new Rect(x, -step, 1, 2 + step * 2), unit, Ink);
+            }
         }
 
         private void Square(VertexHelper mesh, Vector2 center, Rect r, float unit, Color32 pixelColor)
