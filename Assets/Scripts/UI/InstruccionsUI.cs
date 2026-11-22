@@ -19,11 +19,13 @@ namespace Xuixo.UI
         {
             public readonly string Tecla;
             public readonly string Accio;
+            public readonly string Icona;
 
-            public Pas(string tecla, string accio)
+            public Pas(string tecla, string accio, string icona = null)
             {
                 Tecla = tecla;
                 Accio = accio;
+                Icona = icona;
             }
         }
 
@@ -50,7 +52,8 @@ namespace Xuixo.UI
                 } },
             { "EnrotllarMassa", new[]
                 {
-                    new Pas("BOTÓ ESQUERRE", "Mantén premut a l'inici i ressegueix la massa fins al centre"),
+                    new Pas("BOTÓ ESQUERRE", "Mantén premut a l'inici i ressegueix la massa fins al centre",
+                        "UI/LeftClickMouse"),
                 } },
             // FryingFinale has its own live prompts for both timing rounds.
         };
@@ -211,6 +214,22 @@ namespace Xuixo.UI
 
             ContentSizeFitter ajustFila = fila.AddComponent<ContentSizeFitter>();
             ajustFila.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+
+            Sprite sprite = string.IsNullOrEmpty(pas.Icona) ? null : Resources.Load<Sprite>(pas.Icona);
+            if (sprite != null)
+            {
+                GameObject icona = CreaFill("IconaTecla", fila.transform);
+                Image imatge = icona.AddComponent<Image>();
+                imatge.sprite = sprite;
+                imatge.preserveAspect = true;
+                imatge.raycastTarget = false;
+
+                LayoutElement mida = icona.AddComponent<LayoutElement>();
+                mida.preferredWidth = 88f;
+                mida.preferredHeight = 72f;
+                CreaText(fila.transform, "Accio", pas.Accio, 26f, TemaPastisseria.ColorTextFosc, false);
+                return;
+            }
 
             // Xip amb el boto de fusta del kit (la tecla)
             GameObject xip = CreaFill("Xip", fila.transform);
