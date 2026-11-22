@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -13,8 +14,10 @@ public class ObradorIntroController : MonoBehaviour
     [SerializeField] private DialogueData introDialogue;
 
     [Header("Configuració")]
-    [SerializeField] private string nextSceneName = "Escena1_Bol*";
+    [SerializeField] private string nextSceneName = "Escena1_Bol";
     [SerializeField, Min(0.01f)] private float fadeDuration = 0.5f;
+
+    private bool _started;
 
     private void OnEnable()
     {
@@ -28,8 +31,24 @@ public class ObradorIntroController : MonoBehaviour
         dialogueManager.Finished -= OnDialogueFinished;
     }
 
+    private void Update()
+    {
+        if (_started) return;
+
+        var kb = Keyboard.current;
+        if (kb == null) return;
+
+        if (kb.spaceKey.wasPressedThisFrame || kb.enterKey.wasPressedThisFrame)
+        {
+            OnPlayClicked();
+        }
+    }
+
     private void OnPlayClicked()
     {
+        if (_started) return;
+        _started = true;
+
         Xuixo.GameManager.BeginRun();
         playButton.interactable = false;
         StartCoroutine(PlayIntroRoutine());
@@ -39,7 +58,7 @@ public class ObradorIntroController : MonoBehaviour
     {
         yield return Fade(posterGroup, 1f, 0f);
         posterGroup.gameObject.SetActive(false);
-        yield return null; // evita que el clic del botó avanci el diàleg
+        yield return null; // evita que la mateixa pulsació avanci el diàleg
         dialogueManager.Play(introDialogue);
     }
 
