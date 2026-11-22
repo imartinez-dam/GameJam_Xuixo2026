@@ -36,16 +36,16 @@ namespace Xuixo.UI
                     new Pas("SOM-HI!", "Comença la partida"),
                     new Pas("ESPAI / CLIC", "Avança el diàleg"),
                 } },
-<<<<<<< HEAD
+
             { "Escena1_Bol", new[]
                 {
                     new Pas("Mou la massa cap a l'esquerra i cap a la dreta", ""),
                     new Pas("←", ""),
                     new Pas("→", ""),
                 } },
-=======
+
             // Escena1_Bol uses the pixel-art cue above the bowl instead.
->>>>>>> b7c0af977313c3f41fd2df61f953a7d40beabeb9
+
             { "Estirar", new[]
                 {
                     new Pas("ESPAI", "Engega la barra i atura-la al punt just per estirar la massa (3 intents)"),
