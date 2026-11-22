@@ -96,6 +96,9 @@ public sealed class FryingFinale : MonoBehaviour
 
     private readonly Image[] bubbles = new Image[7];
     private float bubbleTime;
+    private Image promptParchment;
+    private Image hintParchment;
+    private Image meterParchment;
 
     private void Start()
     {
@@ -108,6 +111,12 @@ public sealed class FryingFinale : MonoBehaviour
             enabled = false;
             return;
         }
+
+        TemaPastisseria tema = TemaPastisseria.Carrega();
+        Sprite parchment = tema != null ? tema.SpritePanell : EstilPastisseria.Arrodonit;
+        promptParchment = StyleLabel(prompt, parchment);
+        hintParchment = StyleLabel(hint, parchment);
+        meterParchment = StyleLabel(meterLabel, parchment);
 
         LayoutTargetBand();
         targetIdle = targetBand.color;
@@ -123,6 +132,30 @@ public sealed class FryingFinale : MonoBehaviour
         trayPastryWidth = pastry.rectTransform.sizeDelta.x;
         stage = Stage.Ready;
         RefreshGraphicCue();
+    }
+
+    private static Image StyleLabel(Text label, Sprite parchment)
+    {
+        label.color = TemaPastisseria.ColorTextFosc;
+        foreach (Shadow effect in label.GetComponents<Shadow>())
+            effect.enabled = false;
+
+        RectTransform text = label.rectTransform;
+        GameObject background = new GameObject(label.name + " Parchment", typeof(RectTransform), typeof(Image));
+        RectTransform rect = (RectTransform)background.transform;
+        rect.SetParent(text.parent, false);
+        rect.SetSiblingIndex(text.GetSiblingIndex());
+        rect.anchorMin = text.anchorMin;
+        rect.anchorMax = text.anchorMax;
+        rect.pivot = text.pivot;
+        rect.anchoredPosition = text.anchoredPosition;
+        rect.sizeDelta = text.sizeDelta;
+
+        Image image = background.GetComponent<Image>();
+        image.sprite = parchment;
+        image.type = Image.Type.Sliced;
+        image.raycastTarget = false;
+        return image;
     }
 
     private void Update()
@@ -345,7 +378,7 @@ public sealed class FryingFinale : MonoBehaviour
             else
             {
                 targetBand.gameObject.SetActive(false);
-                meterLabel.color = Color.white;
+                meterParchment.color = Color.white;
                 meterLabel.text = "Girem-lo!";
                 SetFill(0f, RawColor);
                 MovePastry(-pastryHeight);
@@ -373,7 +406,7 @@ public sealed class FryingFinale : MonoBehaviour
     private void ShowTimingCue(TimingCue cue)
     {
         targetBand.color = cue == TimingCue.Now ? targetHighlight : targetIdle;
-        meterLabel.color = cue == TimingCue.Now ? new Color(1f, 0.863f, 0.529f, 1f) : Color.white;
+        meterParchment.color = cue == TimingCue.Now ? new Color(1f, 0.863f, 0.529f, 1f) : Color.white;
         meterLabel.text = cue == TimingCue.Now ? (IsSecondSide ? "[Espai] Treu-lo!" : "[Espai] Gira la massa!")
             : cue == TimingCue.Wait ? "Espera.." : "Massa tard...";
         hint.text = cue switch
@@ -402,6 +435,8 @@ public sealed class FryingFinale : MonoBehaviour
         bool timing = stage == Stage.Flip || stage == Stage.TakeOut;
         bool guide = stage == Stage.Ready || stage == Stage.Sugar || timing || stage == Stage.Flipping;
         hint.enabled = !HasGraphicCues || (!guide && stage != Stage.Roll && stage != Stage.Drop && stage != Stage.Sink);
+        promptParchment.enabled = prompt.enabled && !string.IsNullOrWhiteSpace(prompt.text);
+        hintParchment.enabled = hint.enabled && !string.IsNullOrWhiteSpace(hint.text);
         if (graphicCue == null) return;
         if (!HasGraphicCues || !guide)
         {
