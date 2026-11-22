@@ -348,7 +348,7 @@ public sealed class FryingFinale : MonoBehaviour
     private void ShowTimingCue(TimingCue cue)
     {
         targetBand.color = cue == TimingCue.Now ? targetHighlight : targetIdle;
-        meterLabel.color = cue == TimingCue.Now ? new Color32(255, 220, 135, 255) : Color.white;
+        meterLabel.color = cue == TimingCue.Now ? new Color(1f, 0.863f, 0.529f, 1f) : Color.white;
         meterLabel.text = cue == TimingCue.Now ? (IsSecondSide ? "[SPACE] TAKE IT OUT!" : "[SPACE] FLIP NOW!")
             : cue == TimingCue.Wait ? "WAIT" : "TOO LATE";
     }
