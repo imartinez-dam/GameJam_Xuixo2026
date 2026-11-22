@@ -46,14 +46,21 @@ public class MassaScript : MonoBehaviour
                  puntuacio += trueprog/0.5f*100f;
                 
                 Vector3 end = Barra.transform.position;
-                end.x -= transform.localScale.x*multScale;
-                if((Barra.progress < 1 && (Barra.progress > 0.7 || Barra.progress < 0.1)) || (Barra.progress > 1 && (1.3 > Barra.progress || 1.8 < Barra.progress)))
+                if(Barra.progress < 1){
+                    end.x += transform.localScale.x*multScale;
+                } else {
+                    end.x -= transform.localScale.x*multScale;
+                }
+
+                bool animar;
+                if(((Barra.progress < 1 && (Barra.progress > 0.7 || Barra.progress < 0.1)) || (Barra.progress > 1 && (1.3 > Barra.progress || 1.8 < Barra.progress))))
                 {
-                    StartCoroutine(MoveBetween(Barra.transform.position, end, false));
+                    animar = false;
                 } else
                 {
-                    StartCoroutine(MoveBetween(Barra.transform.position, end, true));
+                    animar = true;
                 }
+                StartCoroutine(MoveBetween(Barra.transform.position, end, animar));
                 
             } 
         }
@@ -76,7 +83,12 @@ public class MassaScript : MonoBehaviour
         Vector2 targetScale = originalScale;
         targetScale.x += 0.5f;
         Vector2 targetPosition = originalPos;
-        targetPosition.x -= 1.4f;
+        if(start.x>end.x){
+            targetPosition.x -= 1.4f;
+        } else {
+            targetPosition.x += 1.4f;
+        }
+        
 
 
         while (elapsedTime < duracio)
@@ -129,8 +141,8 @@ public class MassaScript : MonoBehaviour
             if(Barra.progress>2) Barra.progress = 0;
         } else
         {
-            Barra.progress = 2-Barra.progress+recorregut;
-            if(Barra.progress>2) Barra.progress = 0;
+            Barra.progress += recorregut;
+            if(Barra.progress>1) Barra.progress = 1;
         }
 
         if (soEstirar != null) soEstirar.Stop();
