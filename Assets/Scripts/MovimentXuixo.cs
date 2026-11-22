@@ -58,6 +58,7 @@ public class MovimentXuixo : MonoBehaviour
         if (intents > 0) return;
 
         acabat = true;
+        GameManager.Instance?.RecordCustardResult(cremaenmassa);
         int punts = Mathf.RoundToInt((float)cremaenmassa / IntentsTotals * puntsMaxims);
         StartCoroutine(StageTransition.Advance(GameManager.CustardStage, punts, pausaResultat, escenaSeguent, this));
     }

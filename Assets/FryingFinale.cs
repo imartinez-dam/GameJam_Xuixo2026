@@ -31,6 +31,7 @@ public sealed class FryingFinale : MonoBehaviour
     [SerializeField] private Texture2D sugaredXuixo;
     [SerializeField] private Texture2D wonkyXuixo;
     [SerializeField] private Texture2D extraWonkyXuixo;
+    [SerializeField] private Texture2D croissant;
 
     [Header("Hidden score")]
     [SerializeField, Min(0)] private int fryingPoints = 20;
@@ -50,6 +51,7 @@ public sealed class FryingFinale : MonoBehaviour
     [SerializeField] private UnityEvent onXuixoEnding = new UnityEvent();
     [SerializeField] private UnityEvent onWonkyEnding = new UnityEvent();
     [SerializeField] private UnityEvent onExtraWonkyEnding = new UnityEvent();
+    [SerializeField] private UnityEvent onCroissantEnding = new UnityEvent();
 
     [Header("Victory presentation")]
     [SerializeField, Min(0f)] private float sugarPauseSeconds = 0.65f;
@@ -63,6 +65,7 @@ public sealed class FryingFinale : MonoBehaviour
     private static readonly Color32 BurntColor = new Color32(45, 29, 27, 255);
     private static readonly Rect RollCrop = new Rect(0.055f, 0.31f, 0.89f, 0.29f);
     private static readonly Rect WonkyCrop = new Rect(0.055f, 0.27f, 0.89f, 0.40f);
+    private static readonly Rect CroissantCrop = new Rect(0.095f, 0.235f, 0.80f, 0.51f);
     private const float RevealHeight = 112f;
     private const float RevealWidth = 320f;
     private const float OilEntryX = -140f;
@@ -71,7 +74,7 @@ public sealed class FryingFinale : MonoBehaviour
 
     private enum Stage { Ready, Roll, Drop, Sink, Flip, Flipping, TakeOut, Bubbling, Pop, Sugar, SugarPause, Serve, JuryPause, Finished }
     private enum TimingCue { Wait, Now, TooLate }
-    private enum Outcome { ExtraWonky, Wonky, WellMade }
+    private enum Outcome { ExtraWonky, Wonky, WellMade, Croissant }
 
     private Stage stage;
     private float elapsed;
@@ -97,7 +100,7 @@ public sealed class FryingFinale : MonoBehaviour
     private void Start()
     {
         if (!canvas || !trayStart || !trayEdge || !oilSurface || !oilMask || !pastry || !pastry.texture
-            || !friedXuixo || !sugaredXuixo || !wonkyXuixo || !extraWonkyXuixo
+            || !friedXuixo || !sugaredXuixo || !wonkyXuixo || !extraWonkyXuixo || !croissant
             || !prompt || !hint || !meter || !meterLabel || !fill || !targetBand
             || !awardRibbon)
         {
@@ -195,9 +198,14 @@ public sealed class FryingFinale : MonoBehaviour
             case Stage.Bubbling:
                 if (elapsed >= 0.65f)
                 {
-                    Texture2D result = outcome == Outcome.WellMade ? friedXuixo
-                        : outcome == Outcome.Wonky ? wonkyXuixo : extraWonkyXuixo;
-                    SetPastry(result, outcome == Outcome.WellMade ? RollCrop : WonkyCrop, RevealWidth);
+                    var (result, crop) = outcome switch
+                    {
+                        Outcome.WellMade => (friedXuixo, RollCrop),
+                        Outcome.Wonky => (wonkyXuixo, WonkyCrop),
+                        Outcome.Croissant => (croissant, CroissantCrop),
+                        _ => (extraWonkyXuixo, WonkyCrop)
+                    };
+                    SetPastry(result, crop, RevealWidth);
                     MovePastry(-pastryHeight);
                     pastry.enabled = true;
                     SetStage(Stage.Pop, "", "");
@@ -210,6 +218,8 @@ public sealed class FryingFinale : MonoBehaviour
                 if (pop >= 1f)
                 {
                     if (outcome == Outcome.WellMade) SetStage(Stage.Sugar, "Un xuixo!", "[Espai] Ensucrar");
+                    else if (outcome == Outcome.Croissant)
+                        StartServing("Un croissant?!", "Sense crema, no hi ha xuixo.");
                     else
                     {
                         bool wonky = outcome == Outcome.Wonky;
@@ -245,6 +255,7 @@ public sealed class FryingFinale : MonoBehaviour
                     {
                         SetStage(Stage.Finished, prompt.text, hint.text);
                         if (outcome == Outcome.Wonky) onWonkyEnding.Invoke();
+                        else if (outcome == Outcome.Croissant) onCroissantEnding.Invoke();
                         else onExtraWonkyEnding.Invoke();
                     }
                 }
@@ -288,7 +299,8 @@ public sealed class FryingFinale : MonoBehaviour
             return;
         }
 
-        outcome = total >= wellMadeMinScore ? Outcome.WellMade
+        outcome = manager != null && manager.MissedAllCustardDrops ? Outcome.Croissant
+            : total >= wellMadeMinScore ? Outcome.WellMade
             : total >= wonkyMinScore ? Outcome.Wonky : Outcome.ExtraWonky;
         SetStage(Stage.Bubbling, "Veiem el resultat..", "");
     }
