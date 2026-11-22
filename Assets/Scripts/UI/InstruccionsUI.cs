@@ -36,8 +36,9 @@ namespace Xuixo.UI
                 } },
             { "Escena1_Bol", new[]
                 {
-                    new Pas("←", "Mou la massa cap a l'esquerra"),
-                    new Pas("→", "Mou la massa cap a la dreta"),
+                    new Pas("", "Mou la massa cap a l'esquerra i cap a la dreta"),
+                    new Pas("←", ""),
+                    new Pas("→", ""),
                 } },
             { "Estirar", new[]
                 {
