@@ -192,7 +192,22 @@ namespace Xuixo.UI
             foreach (Pas pas in passos)
                 CreaPas(rt, pas);
 
+            RectTransform inici = CreaReferencia("InstruccionsInici", arrel.transform,
+                new Vector2(0.5f, 0.5f), Vector2.zero);
+            RectTransform final = CreaReferencia("InstruccionsFinal", arrel.transform,
+                rt.anchorMin, rt.anchoredPosition);
+            arrel.AddComponent<EntradaInstruccions>().Prepara(rt, inici, final);
+
             return arrel;
+        }
+
+        private static RectTransform CreaReferencia(string nom, Transform pare, Vector2 ancora, Vector2 posicio)
+        {
+            RectTransform referencia = (RectTransform)CreaFill(nom, pare).transform;
+            referencia.anchorMin = referencia.anchorMax = referencia.pivot = ancora;
+            referencia.anchoredPosition = posicio;
+            referencia.sizeDelta = Vector2.zero;
+            return referencia;
         }
 
         private static void CreaPas(Transform pare, Pas pas)
