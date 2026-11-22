@@ -40,16 +40,21 @@ public class MassaScript : MonoBehaviour
                 Barra.Paused = true;
                 intents--;
                 if (soEstirar != null) soEstirar.Play();
-                float trueprog = Barra.progress%1;
-
-                if (trueprog > 0.5) trueprog = 1f-trueprog;
-                 puntuacio += trueprog/0.5f*100f;
                 
                 Vector3 end = Barra.transform.position;
                 if(Barra.progress < 1){
+                    if(Mathf.Abs(transform.position.x-end.x) < 2) puntuacio += 100;
+                    else if(Mathf.Abs(transform.position.x-end.x) < 4) puntuacio += 70;
+                    else puntuacio += 10;
                     end.x += transform.localScale.x*multScale;
+                    
                 } else {
+                    float trueprog = Barra.progress-1;
+                    if (trueprog > 0.5) trueprog = 1f-trueprog;
+                    puntuacio += trueprog/0.5f*100f;
+
                     end.x -= transform.localScale.x*multScale;
+                    
                 }
 
                 bool animar;
