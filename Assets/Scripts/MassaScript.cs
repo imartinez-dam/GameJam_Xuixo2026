@@ -43,8 +43,8 @@ public class MassaScript : MonoBehaviour
                 
                 Vector3 end = Barra.transform.position;
                 if(Barra.progress < 1){
-                    if(Mathf.Abs(transform.position.x-end.x) < 2) puntuacio += 100;
-                    else if(Mathf.Abs(transform.position.x-end.x) < 4) puntuacio += 70;
+                    if(Mathf.Abs(transform.position.x-(end.x+transform.localScale.x)) < 2) puntuacio += 100;
+                    else if(Mathf.Abs(transform.position.x-(end.x+transform.localScale.x)) < 4) puntuacio += 70;
                     else puntuacio += 10;
                     end.x += transform.localScale.x*multScale;
                     
