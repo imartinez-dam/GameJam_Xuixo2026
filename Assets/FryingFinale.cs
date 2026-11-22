@@ -3,6 +3,7 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using Xuixo;
+using Xuixo.UI;
 
 public sealed class FryingFinale : MonoBehaviour
 {
@@ -22,6 +23,8 @@ public sealed class FryingFinale : MonoBehaviour
     [SerializeField] private Image fill;
     [SerializeField] private Image targetBand;
     [SerializeField] private Color targetHighlight = new Color(1f, 0.8f, 0.3f, 0.45f);
+    [SerializeField] private bool useGraphicCues = true;
+    [SerializeField] private FryerActionCue graphicCue;
 
     [Header("Pastry textures")]
     [SerializeField] private Texture2D friedXuixo;
@@ -76,6 +79,7 @@ public sealed class FryingFinale : MonoBehaviour
     private float pastryHeight;
     private float heat;
     private bool IsSecondSide => stage == Stage.TakeOut;
+    private bool HasGraphicCues => useGraphicCues && graphicCue != null;
     private float ActiveTargetStart => IsSecondSide ? secondTargetStart : targetStart;
     private float ActiveTargetEnd => Mathf.Max(ActiveTargetStart + 0.01f, IsSecondSide ? secondTargetEnd : targetEnd);
     // Both the visible cue and the next input check use the last displayed heat value.
@@ -115,6 +119,7 @@ public sealed class FryingFinale : MonoBehaviour
         trayPastryPosition = trayStart.InverseTransformPoint(pastry.rectTransform.position);
         trayPastryWidth = pastry.rectTransform.sizeDelta.x;
         stage = Stage.Ready;
+        RefreshGraphicCue();
     }
 
     private void Update()
@@ -127,13 +132,13 @@ public sealed class FryingFinale : MonoBehaviour
         switch (stage)
         {
             case Stage.Ready:
-                if (pressed) SetStage(Stage.Roll, "Into the oil…", "");
+                if (pressed) SetStage(Stage.Roll, "Dins de la fregidora…", "Espera el moment just.");
                 break;
             case Stage.Roll:
                 float roll = Mathf.Clamp01(elapsed / 0.45f);
                 pastry.rectTransform.position = Vector3.Lerp(trayStart.position, trayEdge.position, roll * roll);
                 pastry.rectTransform.localRotation = Quaternion.Euler(0f, 0f, -12f * roll);
-                if (roll >= 1f) SetStage(Stage.Drop, "Into the oil…", "");
+                if (roll >= 1f) SetStage(Stage.Drop, prompt.text, hint.text);
                 break;
             case Stage.Drop:
                 float drop = Mathf.Clamp01(elapsed / 0.30f);
@@ -149,7 +154,7 @@ public sealed class FryingFinale : MonoBehaviour
                     art.anchorMin = art.anchorMax = new Vector2(0.5f, 0f);
                     art.localRotation = Quaternion.identity;
                     art.anchoredPosition = new Vector2(OilEntryX, 0f);
-                    SetStage(Stage.Sink, "Into the oil…", "");
+                    SetStage(Stage.Sink, prompt.text, hint.text);
                 }
                 break;
             case Stage.Sink:
@@ -168,6 +173,9 @@ public sealed class FryingFinale : MonoBehaviour
             case Stage.Flipping:
                 // Input is ignored during the flip; the second timing round starts at splashdown.
                 float flip = Mathf.Clamp01(elapsed / FlipAnimationSeconds);
+                if (HasGraphicCues)
+                    LayoutTargetBand(Mathf.Lerp(targetStart, secondTargetStart, flip),
+                        Mathf.Lerp(ActiveTargetEnd, Mathf.Max(secondTargetStart + 0.01f, secondTargetEnd), flip));
                 float arc = 4f * flip * (1f - flip);
                 MovePastry(Mathf.Lerp(-pastryHeight, 34f, arc));
                 Vector3 scale = pastryScale;
@@ -201,13 +209,13 @@ public sealed class FryingFinale : MonoBehaviour
                     + 38f * Mathf.Sin(pop * Mathf.PI));
                 if (pop >= 1f)
                 {
-                    if (outcome == Outcome.WellMade) SetStage(Stage.Sugar, "A xuixo!", "[SPACE] Add sugar");
+                    if (outcome == Outcome.WellMade) SetStage(Stage.Sugar, "Un xuixo!", "[Espai] Ensucrar");
                     else
                     {
                         bool wonky = outcome == Outcome.Wonky;
-                        StartServing(wonky ? "A wonky xuixo…" : "An extra-wonky xuixo!",
-                            wonky ? "Good flavor. Next time, let's keep the custard inside."
-                                  : "The tray got more custard than the pastry.");
+                        StartServing(wonky ? "Un intent de xuixo…" : "Un fracàs de xuixo!",
+                            wonky ? "Està bé, però intentem que la propera vegada la crema quedi dins del xuixo!"
+                                  : "Hi ha més crema a la fregidora que en l'interior del xuixo...");
                     }
                 }
                 break;
@@ -215,7 +223,7 @@ public sealed class FryingFinale : MonoBehaviour
                 if (pressed)
                 {
                     SetPastry(sugaredXuixo, RollCrop, RevealWidth);
-                    SetStage(Stage.SugarPause, "A perfect xuixo!", "");
+                    SetStage(Stage.SugarPause, "Un xuixo perfecte!", "");
                 }
                 break;
             case Stage.SugarPause:
@@ -282,7 +290,7 @@ public sealed class FryingFinale : MonoBehaviour
 
         outcome = total >= wellMadeMinScore ? Outcome.WellMade
             : total >= wonkyMinScore ? Outcome.Wonky : Outcome.ExtraWonky;
-        SetStage(Stage.Bubbling, "What came out of the fryer?", "");
+        SetStage(Stage.Bubbling, "Veiem el resultat..", "");
     }
 
     private void OnValidate()
@@ -304,8 +312,7 @@ public sealed class FryingFinale : MonoBehaviour
     private void BeginTimingRound(bool secondSide)
     {
         SetStage(secondSide ? Stage.TakeOut : Stage.Flip,
-            secondSide ? "Side 2: Take it out in the low gold band" : "Side 1: Flip in the golden zone",
-            "Press Space only when the bar reaches the marked band");
+            secondSide ? "2 / 2: Prepara't per treure la massa!" : "1 / 2: Gira la massa!", "");
         heat = 0f;
         LayoutTargetBand();
         targetBand.gameObject.SetActive(true);
@@ -327,11 +334,17 @@ public sealed class FryingFinale : MonoBehaviour
             {
                 targetBand.gameObject.SetActive(false);
                 meterLabel.color = Color.white;
-                meterLabel.text = "FLIPPING…";
+                meterLabel.text = "Girem-lo!";
                 SetFill(0f, RawColor);
                 MovePastry(-pastryHeight);
                 pastry.enabled = true;
-                SetStage(Stage.Flipping, "Flipping…", "Next: watch for the gold band near the bottom");
+                SetStage(Stage.Flipping, "Girant…", "Prepara't per treure'l de la fregidora!");
+                if (HasGraphicCues)
+                {
+                    targetBand.color = targetIdle;
+                    targetBand.gameObject.SetActive(true);
+                    meterLabel.text = "Next: Lift";
+                }
             }
             return;
         }
@@ -349,8 +362,18 @@ public sealed class FryingFinale : MonoBehaviour
     {
         targetBand.color = cue == TimingCue.Now ? targetHighlight : targetIdle;
         meterLabel.color = cue == TimingCue.Now ? new Color(1f, 0.863f, 0.529f, 1f) : Color.white;
-        meterLabel.text = cue == TimingCue.Now ? (IsSecondSide ? "[SPACE] TAKE IT OUT!" : "[SPACE] FLIP NOW!")
-            : cue == TimingCue.Wait ? "WAIT" : "TOO LATE";
+        meterLabel.text = cue == TimingCue.Now ? (IsSecondSide ? "[Espai] Treu-lo!" : "[Espai] Gira la massa!")
+            : cue == TimingCue.Wait ? "Espera.." : "Massa tard...";
+        hint.text = cue switch
+        {
+            TimingCue.Now => IsSecondSide ? "Prem espai ara per treure la massa" : "Prem espai per girar la massa.",
+            TimingCue.Wait => IsSecondSide ? "Wait until the fill reaches the gold band near the bottom."
+                                           : "Wait until the fill reaches the gold band.",
+            _ => "The fill passed the gold band."
+        };
+        if (HasGraphicCues && cue != TimingCue.TooLate)
+            meterLabel.text = (IsSecondSide ? "Lift" : "Flip") + (cue == TimingCue.Wait ? " · Wait" : "");
+        RefreshGraphicCue();
     }
 
     private void SetStage(Stage next, string title, string instructions)
@@ -359,6 +382,34 @@ public sealed class FryingFinale : MonoBehaviour
         elapsed = 0f;
         prompt.text = title;
         hint.text = instructions;
+        RefreshGraphicCue();
+    }
+
+    private void RefreshGraphicCue()
+    {
+        bool timing = stage == Stage.Flip || stage == Stage.TakeOut;
+        bool guide = stage == Stage.Ready || stage == Stage.Sugar || timing || stage == Stage.Flipping;
+        hint.enabled = !HasGraphicCues || (!guide && stage != Stage.Roll && stage != Stage.Drop && stage != Stage.Sink);
+        if (graphicCue == null) return;
+        if (!HasGraphicCues || !guide)
+        {
+            graphicCue.enabled = false;
+            return;
+        }
+
+        FryerActionCue.ActionIcon icon = stage switch
+        {
+            Stage.Ready => FryerActionCue.ActionIcon.Drop,
+            Stage.Sugar => FryerActionCue.ActionIcon.Sugar,
+            Stage.Flip => FryerActionCue.ActionIcon.Flip,
+            _ => FryerActionCue.ActionIcon.Lift
+        };
+        Vector2 position = stage == Stage.Ready ? trayStart.anchoredPosition + Vector2.up * 86f
+            : stage == Stage.Sugar ? new Vector2(0f, -156f)
+            : meter.anchoredPosition + Vector2.down * 179f;
+        graphicCue.rectTransform.anchoredPosition = position;
+        bool pressNow = stage == Stage.Ready || stage == Stage.Sugar || (timing && CurrentCue == TimingCue.Now);
+        graphicCue.Show(icon, pressNow);
     }
 
     private void SetFill(float amount, Color color)
@@ -368,11 +419,13 @@ public sealed class FryingFinale : MonoBehaviour
         fill.color = color;
     }
 
-    private void LayoutTargetBand()
+    private void LayoutTargetBand() => LayoutTargetBand(ActiveTargetStart, ActiveTargetEnd);
+
+    private void LayoutTargetBand(float start, float end)
     {
         RectTransform rect = targetBand.rectTransform;
-        rect.anchorMin = new Vector2(rect.anchorMin.x, ActiveTargetStart);
-        rect.anchorMax = new Vector2(rect.anchorMax.x, ActiveTargetEnd);
+        rect.anchorMin = new Vector2(rect.anchorMin.x, start);
+        rect.anchorMax = new Vector2(rect.anchorMax.x, end);
     }
 
     private void SetPastry(Texture2D texture, Rect crop, float width)
