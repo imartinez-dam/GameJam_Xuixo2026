@@ -129,6 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 101}
   - component: {fileID: 102}
+  - component: {fileID: 103}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -202,6 +203,10 @@ Camera:
   m_OcclusionCulling: 0
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!81 &103
+AudioListener:
+  m_GameObject: {fileID: 100}
+  m_Enabled: 1
 --- !u!1 &200
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,6 +217,7 @@ GameObject:
   m_Component:
   - component: {fileID: 201}
   - component: {fileID: 202}
+  - component: {fileID: 203}
   m_Layer: 0
   m_Name: Frying Finale
   m_TagString: Untagged
@@ -281,6 +287,32 @@ MonoBehaviour:
   onExtraWonkyEnding:
     m_PersistentCalls:
       m_Calls: []
+  awardRibbon: {fileID: 631}
+  awardAudio: {fileID: 203}
+  victoryJingle: {fileID: 8300000, guid: 1a8f920393795cd4c8f8ba8d6da461f0, type: 3}
+--- !u!82 &203
+AudioSource:
+  m_GameObject: {fileID: 200}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 0.65
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
 --- !u!1 &300
 GameObject:
   m_ObjectHideFlags: 0
@@ -318,6 +350,7 @@ RectTransform:
   - {fileID: 401}
   - {fileID: 411}
   - {fileID: 421}
+  - {fileID: 601}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1578,6 +1611,65 @@ MonoBehaviour:
   m_Enabled: 1
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Color: {r: 1, g: 0.8, b: 0.43, a: 1}
+  m_RaycastTarget: 0
+  m_Maskable: 1
+--- !u!1 &600
+GameObject:
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 601}
+  m_Layer: 5
+  m_Name: Victory Display
+  m_TagString: Untagged
+  m_IsActive: 1
+--- !u!224 &601
+RectTransform:
+  m_GameObject: {fileID: 600}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 631}
+  m_Father: {fileID: 301}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &630
+GameObject:
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 631}
+  - component: {fileID: 632}
+  - component: {fileID: 633}
+  m_Layer: 5
+  m_Name: Jury Rosette
+  m_TagString: Untagged
+  m_IsActive: 1
+--- !u!224 &631
+RectTransform:
+  m_GameObject: {fileID: 630}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 601}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -205, y: 35}
+  m_SizeDelta: {x: 120, y: 132}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &632
+CanvasRenderer:
+  m_GameObject: {fileID: 630}
+  m_CullTransparentMesh: 1
+--- !u!114 &633
+MonoBehaviour:
+  m_GameObject: {fileID: 630}
+  m_Enabled: 1
+  m_Script: {fileID: 11500000, guid: 8a60266fb0b94b8daa6bded80dc42237, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
 --- !u!1660057539 &9223372036854775807

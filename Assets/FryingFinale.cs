@@ -48,6 +48,11 @@ public sealed class FryingFinale : MonoBehaviour
     [SerializeField] private UnityEvent onWonkyEnding = new UnityEvent();
     [SerializeField] private UnityEvent onExtraWonkyEnding = new UnityEvent();
 
+    [Header("Victory presentation")]
+    [SerializeField] private RectTransform awardRibbon;
+    [SerializeField] private AudioSource awardAudio;
+    [SerializeField] private AudioClip victoryJingle;
+
     // PNG pixels (x=640, y=700 measured from the top) from the raw and fried sprites.
     private static readonly Color32 RawColor = new Color32(247, 211, 174, 255);
     private static readonly Color32 FriedColor = new Color32(246, 167, 65, 255);
@@ -60,7 +65,7 @@ public sealed class FryingFinale : MonoBehaviour
     private const float FlipAnimationSeconds = 0.42f;
     private const float SplashSeconds = 0.24f;
 
-    private enum Stage { Ready, Roll, Drop, Sink, Flip, Flipping, TakeOut, Bubbling, Pop, Sugar, Finished }
+    private enum Stage { Ready, Roll, Drop, Sink, Flip, Flipping, TakeOut, Bubbling, Pop, Sugar, Serve, JuryPause, Finished }
     private enum TimingCue { Wait, Now, TooLate }
     private enum Outcome { ExtraWonky, Wonky, WellMade }
 
@@ -77,6 +82,9 @@ public sealed class FryingFinale : MonoBehaviour
     private Color targetIdle;
     private Vector3 pastryScale;
     private Rect rawCrop;
+    private Vector3 serveStart;
+    private Vector3 trayPastryPosition;
+    private Vector2 trayPastrySize;
 
     private readonly Image[] bubbles = new Image[7];
     private float bubbleTime;
@@ -85,7 +93,8 @@ public sealed class FryingFinale : MonoBehaviour
     {
         if (!canvas || !trayStart || !trayEdge || !oilSurface || !oilMask || !pastry || !pastry.texture
             || !friedXuixo || !sugaredXuixo || !wonkyXuixo || !extraWonkyXuixo
-            || !prompt || !hint || !meter || !meterLabel || !fill || !targetBand)
+            || !prompt || !hint || !meter || !meterLabel || !fill || !targetBand
+            || !awardRibbon)
         {
             Debug.LogError("FryingFinale needs its scene layout, UI and pastry textures assigned.", this);
             enabled = false;
@@ -97,10 +106,13 @@ public sealed class FryingFinale : MonoBehaviour
         targetBand.gameObject.SetActive(true);
         // The meter is visible in edit mode for layout work, but not until frying during play.
         meter.gameObject.SetActive(false);
+        awardRibbon.gameObject.SetActive(false);
         CreateBubbles();
         pastryHeight = pastry.rectTransform.rect.height;
         pastryScale = pastry.rectTransform.localScale;
         rawCrop = pastry.uvRect;
+        trayPastryPosition = trayStart.InverseTransformPoint(pastry.rectTransform.position);
+        trayPastrySize = pastry.rectTransform.sizeDelta;
         stage = Stage.Ready;
     }
 
@@ -192,17 +204,35 @@ public sealed class FryingFinale : MonoBehaviour
                     else
                     {
                         bool wonky = outcome == Outcome.Wonky;
-                        SetStage(Stage.Finished, wonky ? "A wonky xuixo…" : "An extra-wonky xuixo!", "The end");
+                        SetStage(Stage.Finished, wonky ? "A wonky xuixo…" : "An extra-wonky xuixo!",
+                            wonky ? "Good flavor. Next time, let's keep the custard inside."
+                                  : "The tray got more custard than the pastry.");
                         if (wonky) onWonkyEnding.Invoke();
                         else onExtraWonkyEnding.Invoke();
                     }
                 }
                 break;
             case Stage.Sugar:
-                if (pressed)
+                if (pressed) StartServing();
+                break;
+            case Stage.Serve:
+                float serve = Mathf.Clamp01(elapsed / 0.55f);
+                RectTransform servingArt = pastry.rectTransform;
+                servingArt.sizeDelta = Vector2.Lerp(new Vector2(RevealWidth, pastryHeight), trayPastrySize, serve);
+                servingArt.localPosition = Vector3.Lerp(serveStart, trayPastryPosition, serve)
+                    + Vector3.up * (24f * Mathf.Sin(serve * Mathf.PI));
+                if (serve >= 1f)
                 {
-                    SetPastry(sugaredXuixo, RollCrop, RevealWidth);
-                    SetStage(Stage.Finished, "A perfect xuixo!", "The end");
+                    servingArt.localPosition = trayPastryPosition;
+                    SetStage(Stage.JuryPause, "El jurat ja ha decidit…", "");
+                }
+                break;
+            case Stage.JuryPause:
+                if (elapsed >= 0.8f)
+                {
+                    awardRibbon.gameObject.SetActive(true);
+                    if (awardAudio && victoryJingle) awardAudio.PlayOneShot(victoryJingle);
+                    SetStage(Stage.Finished, "Millor Xuixo del Món", "I el premi al Millor Xuixo del Món és per a… tu!");
                     onXuixoEnding.Invoke();
                 }
                 break;
@@ -245,6 +275,17 @@ public sealed class FryingFinale : MonoBehaviour
     {
         wonkyMinScore = Mathf.Clamp(wonkyMinScore, 1, int.MaxValue - 1);
         wellMadeMinScore = Mathf.Max(wonkyMinScore + 1, wellMadeMinScore);
+    }
+
+    private void StartServing()
+    {
+        SetPastry(sugaredXuixo, RollCrop, RevealWidth);
+        RectTransform art = pastry.rectTransform;
+        serveStart = trayStart.InverseTransformPoint(art.position);
+        art.SetParent(trayStart, false);
+        art.anchorMin = art.anchorMax = new Vector2(0.5f, 0.5f);
+        art.localPosition = serveStart;
+        SetStage(Stage.Serve, "A perfect xuixo!", "");
     }
 
     private void BeginTimingRound(bool secondSide)
