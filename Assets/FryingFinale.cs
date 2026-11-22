@@ -49,6 +49,7 @@ public sealed class FryingFinale : MonoBehaviour
     [SerializeField] private UnityEvent onExtraWonkyEnding = new UnityEvent();
 
     [Header("Victory presentation")]
+    [SerializeField, Min(0f)] private float sugarPauseSeconds = 0.65f;
     [SerializeField] private RectTransform awardRibbon;
     [SerializeField] private AudioSource awardAudio;
     [SerializeField] private AudioClip victoryJingle;
@@ -65,7 +66,7 @@ public sealed class FryingFinale : MonoBehaviour
     private const float FlipAnimationSeconds = 0.42f;
     private const float SplashSeconds = 0.24f;
 
-    private enum Stage { Ready, Roll, Drop, Sink, Flip, Flipping, TakeOut, Bubbling, Pop, Sugar, Serve, JuryPause, Finished }
+    private enum Stage { Ready, Roll, Drop, Sink, Flip, Flipping, TakeOut, Bubbling, Pop, Sugar, SugarPause, Serve, JuryPause, Finished }
     private enum TimingCue { Wait, Now, TooLate }
     private enum Outcome { ExtraWonky, Wonky, WellMade }
 
@@ -84,7 +85,7 @@ public sealed class FryingFinale : MonoBehaviour
     private Rect rawCrop;
     private Vector3 serveStart;
     private Vector3 trayPastryPosition;
-    private Vector2 trayPastrySize;
+    private float trayPastryWidth;
 
     private readonly Image[] bubbles = new Image[7];
     private float bubbleTime;
@@ -112,7 +113,7 @@ public sealed class FryingFinale : MonoBehaviour
         pastryScale = pastry.rectTransform.localScale;
         rawCrop = pastry.uvRect;
         trayPastryPosition = trayStart.InverseTransformPoint(pastry.rectTransform.position);
-        trayPastrySize = pastry.rectTransform.sizeDelta;
+        trayPastryWidth = pastry.rectTransform.sizeDelta.x;
         stage = Stage.Ready;
     }
 
@@ -204,27 +205,40 @@ public sealed class FryingFinale : MonoBehaviour
                     else
                     {
                         bool wonky = outcome == Outcome.Wonky;
-                        SetStage(Stage.Finished, wonky ? "A wonky xuixo…" : "An extra-wonky xuixo!",
+                        StartServing(wonky ? "A wonky xuixo…" : "An extra-wonky xuixo!",
                             wonky ? "Good flavor. Next time, let's keep the custard inside."
                                   : "The tray got more custard than the pastry.");
-                        if (wonky) onWonkyEnding.Invoke();
-                        else onExtraWonkyEnding.Invoke();
                     }
                 }
                 break;
             case Stage.Sugar:
-                if (pressed) StartServing();
+                if (pressed)
+                {
+                    SetPastry(sugaredXuixo, RollCrop, RevealWidth);
+                    SetStage(Stage.SugarPause, "A perfect xuixo!", "");
+                }
+                break;
+            case Stage.SugarPause:
+                if (elapsed >= sugarPauseSeconds) StartServing(prompt.text, hint.text);
                 break;
             case Stage.Serve:
                 float serve = Mathf.Clamp01(elapsed / 0.55f);
                 RectTransform servingArt = pastry.rectTransform;
-                servingArt.sizeDelta = Vector2.Lerp(new Vector2(RevealWidth, pastryHeight), trayPastrySize, serve);
+                float servingWidth = Mathf.Lerp(RevealWidth, trayPastryWidth, serve);
+                servingArt.sizeDelta = new Vector2(servingWidth, pastryHeight * (servingWidth / RevealWidth));
                 servingArt.localPosition = Vector3.Lerp(serveStart, trayPastryPosition, serve)
                     + Vector3.up * (24f * Mathf.Sin(serve * Mathf.PI));
                 if (serve >= 1f)
                 {
                     servingArt.localPosition = trayPastryPosition;
-                    SetStage(Stage.JuryPause, "El jurat ja ha decidit…", "");
+                    if (outcome == Outcome.WellMade)
+                        SetStage(Stage.JuryPause, "El jurat ja ha decidit…", "");
+                    else
+                    {
+                        SetStage(Stage.Finished, prompt.text, hint.text);
+                        if (outcome == Outcome.Wonky) onWonkyEnding.Invoke();
+                        else onExtraWonkyEnding.Invoke();
+                    }
                 }
                 break;
             case Stage.JuryPause:
@@ -277,15 +291,14 @@ public sealed class FryingFinale : MonoBehaviour
         wellMadeMinScore = Mathf.Max(wonkyMinScore + 1, wellMadeMinScore);
     }
 
-    private void StartServing()
+    private void StartServing(string title, string instructions)
     {
-        SetPastry(sugaredXuixo, RollCrop, RevealWidth);
         RectTransform art = pastry.rectTransform;
         serveStart = trayStart.InverseTransformPoint(art.position);
         art.SetParent(trayStart, false);
         art.anchorMin = art.anchorMax = new Vector2(0.5f, 0.5f);
         art.localPosition = serveStart;
-        SetStage(Stage.Serve, "A perfect xuixo!", "");
+        SetStage(Stage.Serve, title, instructions);
     }
 
     private void BeginTimingRound(bool secondSide)
