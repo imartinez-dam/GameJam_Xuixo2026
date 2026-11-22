@@ -26,10 +26,13 @@ public class EnrotllarMassa : MonoBehaviour
     public static int UltimPercentatge { get; private set; }
 
     private const int SegmentsTap = 8;
+    private static readonly Color VoraMarca = new Color32(26, 16, 10, 255);
 
     private LineRenderer linia;
     private TMP_Text textProgresLateral;
     private GameObject panellResultat;
+    private RectTransform etiquetaInici;
+    private RectTransform fletxaInici;
 
     private int ultimTram = -1;
 
@@ -82,6 +85,8 @@ public class EnrotllarMassa : MonoBehaviour
 
         passadis = GetComponent<PolygonCollider2D>();
         GeneraEspiral();
+        DecoraMarca(marcaInici, true);
+        DecoraMarca(marcaFinal, false);
         PreparaPanells();
         MostraPercentatge(0);
     }
@@ -130,6 +135,76 @@ public class EnrotllarMassa : MonoBehaviour
         textProgresLateral.fontSize = 28f;
         textProgresLateral.alignment = TextAlignmentOptions.Center;
         textProgresLateral.raycastTarget = false;
+
+        if (marcaInici != null)
+        {
+            fletxaInici = CreaPergami("FletxaInici", text.parent, EstilPastisseria.Arrodonit);
+            fletxaInici.sizeDelta = new Vector2(20f, 20f);
+            fletxaInici.localRotation = Quaternion.Euler(0f, 0f, 45f);
+            fletxaInici.GetComponent<Image>().color = VoraMarca;
+
+            etiquetaInici = CreaPergami("EtiquetaInici", text.parent, pergami);
+            etiquetaInici.sizeDelta = new Vector2(200f, 48f);
+            GameObject titol = new GameObject("Text", typeof(RectTransform));
+            titol.transform.SetParent(etiquetaInici, false);
+            TextMeshProUGUI textInici = titol.AddComponent<TextMeshProUGUI>();
+            RectTransform marcText = textInici.rectTransform;
+            marcText.anchorMin = Vector2.zero;
+            marcText.anchorMax = Vector2.one;
+            marcText.offsetMin = marcText.offsetMax = Vector2.zero;
+            textInici.font = textPercentatge.font;
+            textInici.text = "Mantén premut";
+            textInici.color = TemaPastisseria.ColorTextFosc;
+            textInici.fontSize = 24f;
+            textInici.alignment = TextAlignmentOptions.Center;
+            textInici.raycastTarget = false;
+        }
+    }
+
+    private void LateUpdate()
+    {
+        if (etiquetaInici == null || marcaInici == null)
+            return;
+
+        RectTransform pare = (RectTransform)etiquetaInici.parent;
+        Vector2 pantalla = cameraJoc.WorldToScreenPoint(marcaInici.position);
+        if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(pare, pantalla, null, out Vector2 punt))
+            return;
+
+        float migAmple = etiquetaInici.sizeDelta.x * 0.5f;
+        float x = Mathf.Clamp(punt.x, pare.rect.xMin + migAmple, pare.rect.xMax - migAmple);
+        etiquetaInici.localPosition = new Vector3(x, punt.y - 68f, 0f);
+        float xFletxa = Mathf.Clamp(punt.x, x - migAmple + 15f, x + migAmple - 15f);
+        fletxaInici.localPosition = new Vector3(xFletxa, punt.y - 43f, 0f);
+    }
+
+    private void DecoraMarca(Transform marca, bool inici)
+    {
+        if (marca == null || !marca.TryGetComponent(out SpriteRenderer cercle) || cercle.sprite == null)
+            return;
+
+        cercle.enabled = inici;
+        cercle.color = TemaPastisseria.ColorTextClar;
+
+        GameObject vora = new GameObject("Vora");
+        vora.transform.SetParent(marca, false);
+        LineRenderer anell = vora.AddComponent<LineRenderer>();
+        anell.sharedMaterial = linia.sharedMaterial;
+        anell.sortingLayerID = cercle.sortingLayerID;
+        anell.sortingOrder = cercle.sortingOrder + 1;
+        anell.useWorldSpace = false;
+        anell.loop = true;
+        anell.startColor = anell.endColor = VoraMarca;
+        float radi = Mathf.Min(cercle.sprite.bounds.extents.x, cercle.sprite.bounds.extents.y) * 0.9f;
+        anell.startWidth = anell.endWidth = radi * 0.25f;
+
+        const int segments = 32;
+        anell.positionCount = segments;
+        for (int i = 0; i < segments; i++)
+        {
+            float angle = i * 2f * Mathf.PI / segments;
+            anell.SetPosition(i, new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0f) * radi);
+        }
     }
 
     private static RectTransform CreaPergami(string nom, Transform pare, Sprite sprite)

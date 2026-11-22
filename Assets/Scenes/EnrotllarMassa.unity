@@ -604,7 +604,7 @@ MonoBehaviour:
   pausaResultat: 2
   puntsMaxims: 20
   amplada: 0.65
-  colorSuperat: {r: 0, g: 1, b: 0, a: 1}
+  colorSuperat: {r: 0.86666673, g: 0.69803923, b: 0.4901961, a: 0.74509805}
   puntsEspiral: {fileID: 1679960427}
   soEnrotllar: {fileID: 607227554}
 --- !u!60 &607227551
