@@ -99,37 +99,27 @@ public class EnrotllarMassa : MonoBehaviour
         TemaPastisseria tema = TemaPastisseria.Carrega();
         Sprite pergami = tema != null ? tema.SpritePanell : EstilPastisseria.Arrodonit;
 
+        Transform pare = textPercentatge.transform.parent;
+        RectTransform resultat = CreaPergamiLateral("PergamiResultat", pare, pergami, false);
         RectTransform text = textPercentatge.rectTransform;
-        RectTransform fons = CreaPergami("PergamiResultat", text.parent, pergami);
-        fons.SetSiblingIndex(text.GetSiblingIndex());
-        fons.anchorMin = text.anchorMin;
-        fons.anchorMax = text.anchorMax;
-        fons.pivot = text.pivot;
-        fons.anchoredPosition = text.anchoredPosition;
-        fons.sizeDelta = text.sizeDelta;
+        text.SetParent(resultat, false);
+        AjustaTextPergami(text);
 
         textPercentatge.color = TemaPastisseria.ColorTextFosc;
-        textPercentatge.fontSize = 34f;
-        textPercentatge.margin = new Vector4(24f, 0f, 24f, 0f);
+        textPercentatge.fontSize = 36f;
+        textPercentatge.alignment = TextAlignmentOptions.Center;
+        textPercentatge.textWrappingMode = TextWrappingModes.Normal;
+        textPercentatge.margin = Vector4.zero;
         textPercentatge.raycastTarget = false;
-        panellResultat = fons.gameObject;
+        panellResultat = resultat.gameObject;
         panellResultat.SetActive(false);
-        textPercentatge.gameObject.SetActive(false);
 
-        RectTransform lateral = CreaPergami("PergamiProgres", text.parent, pergami);
-        lateral.anchorMin = lateral.anchorMax = new Vector2(1f, 0.5f);
-        lateral.pivot = new Vector2(1f, 0.5f);
-        lateral.anchoredPosition = new Vector2(-48f, 0f);
-        lateral.sizeDelta = new Vector2(264f, 160f);
+        RectTransform lateral = CreaPergamiLateral("PergamiProgres", pare, pergami, true);
 
         GameObject etiqueta = new GameObject("ProgresLateral", typeof(RectTransform));
         etiqueta.transform.SetParent(lateral, false);
         textProgresLateral = etiqueta.AddComponent<TextMeshProUGUI>();
-        RectTransform rect = textProgresLateral.rectTransform;
-        rect.anchorMin = Vector2.zero;
-        rect.anchorMax = Vector2.one;
-        rect.offsetMin = new Vector2(12f, 8f);
-        rect.offsetMax = new Vector2(-12f, -8f);
+        AjustaTextPergami(textProgresLateral.rectTransform);
         textProgresLateral.font = textPercentatge.font;
         textProgresLateral.color = TemaPastisseria.ColorTextFosc;
         textProgresLateral.fontSize = 28f;
@@ -138,12 +128,12 @@ public class EnrotllarMassa : MonoBehaviour
 
         if (marcaInici != null)
         {
-            fletxaInici = CreaPergami("FletxaInici", text.parent, EstilPastisseria.Arrodonit);
+            fletxaInici = CreaPergami("FletxaInici", pare, EstilPastisseria.Arrodonit);
             fletxaInici.sizeDelta = new Vector2(20f, 20f);
             fletxaInici.localRotation = Quaternion.Euler(0f, 0f, 45f);
             fletxaInici.GetComponent<Image>().color = VoraMarca;
 
-            etiquetaInici = CreaPergami("EtiquetaInici", text.parent, pergami);
+            etiquetaInici = CreaPergami("EtiquetaInici", pare, pergami);
             etiquetaInici.sizeDelta = new Vector2(200f, 48f);
             GameObject titol = new GameObject("Text", typeof(RectTransform));
             titol.transform.SetParent(etiquetaInici, false);
@@ -159,6 +149,24 @@ public class EnrotllarMassa : MonoBehaviour
             textInici.alignment = TextAlignmentOptions.Center;
             textInici.raycastTarget = false;
         }
+    }
+
+    private static RectTransform CreaPergamiLateral(string nom, Transform pare, Sprite pergami, bool dreta)
+    {
+        RectTransform panell = CreaPergami(nom, pare, pergami);
+        Vector2 costat = new Vector2(dreta ? 1f : 0f, 0.5f);
+        panell.anchorMin = panell.anchorMax = panell.pivot = costat;
+        panell.anchoredPosition = new Vector2(dreta ? -48f : 48f, 0f);
+        panell.sizeDelta = dreta ? new Vector2(264f, 160f) : new Vector2(320f, 192f);
+        return panell;
+    }
+
+    private static void AjustaTextPergami(RectTransform text)
+    {
+        text.anchorMin = Vector2.zero;
+        text.anchorMax = Vector2.one;
+        text.offsetMin = new Vector2(12f, 8f);
+        text.offsetMax = new Vector2(-12f, -8f);
     }
 
     private void LateUpdate()
@@ -452,9 +460,8 @@ public class EnrotllarMassa : MonoBehaviour
 
         if (textPercentatge != null)
         {
-            textPercentatge.text = missatge;
+            textPercentatge.text = $"<size=44><b>RESULTAT</b></size>\n{missatge}";
             panellResultat.SetActive(true);
-            textPercentatge.gameObject.SetActive(true);
         }
 
         MostraPercentatge(UltimPercentatge);

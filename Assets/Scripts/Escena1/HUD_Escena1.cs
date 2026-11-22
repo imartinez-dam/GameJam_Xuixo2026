@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Xuixo.UI;
 
 namespace Xuixo.Escena1
 {
@@ -28,6 +29,8 @@ namespace Xuixo.Escena1
         GUIStyle _mitja;
         GUIStyle _mitjaNegreta;
         Texture2D _blanc;
+        FryerActionCue _cueBol;
+        GameObject _canvasCueBol;
 
         void Awake()
         {
@@ -56,6 +59,66 @@ namespace Xuixo.Escena1
             PreparaEstils(k);
 
             // Capçalera (logotip/títol + indicador d'escena) ja la genera CabeceraEsquena.
+        }
+
+        void LateUpdate()
+        {
+            if (masa == null || masa.bol == null || masa.HaSortit)
+            {
+                if (_cueBol != null) _cueBol.enabled = false;
+                return;
+            }
+            Camera cameraJoc = Camera.main;
+            if (cameraJoc == null)
+            {
+                if (_cueBol != null) _cueBol.enabled = false;
+                return;
+            }
+
+            Vector3 puntBol = masa.bol.transform.position;
+            puntBol.y = masa.bol.yVora;
+            Vector3 pantalla = cameraJoc.WorldToScreenPoint(puntBol);
+            if (pantalla.z <= 0f)
+            {
+                if (_cueBol != null) _cueBol.enabled = false;
+                return;
+            }
+
+            if (_cueBol == null) CreaIndicadorBol();
+            RectTransform rect = _cueBol.rectTransform;
+            float escala = Mathf.Min(Screen.width / 960f, Screen.height / 540f);
+            Vector2 mida = new Vector2(132f, 48f) * escala;
+            rect.sizeDelta = mida;
+            rect.anchoredPosition = new Vector2(
+                Mathf.Clamp(pantalla.x, mida.x * 0.5f, Screen.width - mida.x * 0.5f),
+                Mathf.Clamp(pantalla.y + mida.y * 0.5f, mida.y * 0.35f, Screen.height - mida.y * 0.5f));
+            float entrada = EntradaJugador.Llegeix().x;
+            _cueBol.ShowRocking(entrada < -0.15f ? -1 : entrada > 0.15f ? 1 : 0);
+        }
+
+        void CreaIndicadorBol()
+        {
+            _canvasCueBol = new GameObject("Bowl Action Cue", typeof(RectTransform), typeof(Canvas));
+            SceneManager.MoveGameObjectToScene(_canvasCueBol, gameObject.scene);
+            Canvas canvas = _canvasCueBol.GetComponent<Canvas>();
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvas.sortingOrder = 20;
+
+            GameObject indicador = new GameObject("Rock the Dough", typeof(RectTransform), typeof(FryerActionCue));
+            indicador.transform.SetParent(_canvasCueBol.transform, false);
+            _cueBol = indicador.GetComponent<FryerActionCue>();
+            _cueBol.raycastTarget = false;
+            _cueBol.rectTransform.anchorMin = _cueBol.rectTransform.anchorMax = Vector2.zero;
+        }
+
+        void OnDisable()
+        {
+            if (_cueBol != null) _cueBol.enabled = false;
+        }
+
+        void OnDestroy()
+        {
+            if (_canvasCueBol != null) Destroy(_canvasCueBol);
         }
        
         void PreparaEstils(float k)
