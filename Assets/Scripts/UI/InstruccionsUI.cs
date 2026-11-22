@@ -36,7 +36,7 @@ namespace Xuixo.UI
                 } },
             { "Escena1_Bol", new[]
                 {
-                    new Pas("← →", "Balanceja la massa per carregar impuls i sortir del bol!"),                   
+                    new Pas("← →", "Balanceja la massa per carregar impuls i sortir del bol!"),
                 } },
             { "Estirar", new[]
                 {
@@ -115,6 +115,20 @@ namespace Xuixo.UI
                     imatge.color = ColorXip;
                 }
 
+                foreach (TMP_Text textTmp in boto.GetComponentsInChildren<TMP_Text>(true))
+                    FesMesGruixut(textTmp);
+
+                foreach (Text textLegacy in boto.GetComponentsInChildren<Text>(true))
+                {
+                    textLegacy.fontStyle = FontStyle.Bold;
+                    if (textLegacy.GetComponent<Outline>() == null)
+                    {
+                        Outline contorn = textLegacy.gameObject.AddComponent<Outline>();
+                        contorn.effectColor = textLegacy.color;
+                        contorn.effectDistance = new Vector2(1f, -1f);
+                    }
+                }
+
                 if (_tema != null)
                 {
                     boto.transition = Selectable.Transition.SpriteSwap;
@@ -127,6 +141,13 @@ namespace Xuixo.UI
                     boto.spriteState = estat;
                 }
             }
+        }
+
+        private static void FesMesGruixut(TMP_Text tmp)
+        {
+            tmp.fontStyle |= FontStyles.Bold;
+            tmp.fontWeight = FontWeight.Black;
+            tmp.fontMaterial.SetFloat(ShaderUtilities.ID_FaceDilate, 0.25f);
         }
 
         private static GameObject CreaBarra(Pas[] passos)
@@ -223,7 +244,6 @@ namespace Xuixo.UI
             tmp.text = contingut;
             tmp.fontSize = mida;
             tmp.color = color;
-            tmp.fontStyle = negreta ? FontStyles.Bold : FontStyles.Normal;
             tmp.alignment = TextAlignmentOptions.Center;
             tmp.textWrappingMode = TextWrappingModes.NoWrap;
             tmp.raycastTarget = false;
@@ -231,6 +251,11 @@ namespace Xuixo.UI
             TMP_FontAsset font = TrobaFont();
             if (font != null)
                 tmp.font = font;
+
+            if (negreta)
+                FesMesGruixut(tmp);
+            else
+                tmp.fontStyle = FontStyles.Normal;
         }
 
         private static TMP_FontAsset TrobaFont()
