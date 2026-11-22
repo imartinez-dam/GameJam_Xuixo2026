@@ -722,7 +722,7 @@ MonoBehaviour:
   sortida: {fileID: 8300000, guid: 81b70b213f7f9614ebb89a4172308df6, type: 3}
   rodar: {fileID: 8300000, guid: a84bf4d729ba1af4fb66937b305f9b0b, type: 3}
   aterrar: {fileID: 8300000, guid: 3159b219036da6d4f9d9fbe37101de53, type: 3}
-  corro: {fileID: 8300000, guid: 2bb1d2e103f3847498ecd6b3a4d5319d, type: 3}
+  corro: {fileID: 8300000, guid: e7bc24877b295e641903b5b00b24400a, type: 3}
   victoria: {fileID: 8300000, guid: 1a8f920393795cd4c8f8ba8d6da461f0, type: 3}
   clic: {fileID: 8300000, guid: ff7149ab9cc399e468f9031ef749b46f, type: 3}
   musica: {fileID: 8300000, guid: 3a4084d90f53e4a42a57a30a978c975d, type: 3}

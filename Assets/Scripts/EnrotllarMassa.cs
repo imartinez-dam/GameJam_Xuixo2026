@@ -17,9 +17,10 @@ public class EnrotllarMassa : MonoBehaviour
     [SerializeField, Min(0f)] private float pausaResultat = 2f;
     [SerializeField, Min(0)] private int puntsMaxims = 20;
     [SerializeField, Range(0.2f, 0.8f)] private float amplada = 0.55f;
-    [SerializeField] private Color colorPendent = new Color(1f, 0.8f, 0.4f);
     [SerializeField] private Color colorSuperat = Color.green;
     [SerializeField] private Transform puntsEspiral;
+    [SerializeField] private AudioSource soEnrotllar;
+
 
 
     public static int UltimPercentatge { get; private set; }
@@ -120,16 +121,15 @@ public class EnrotllarMassa : MonoBehaviour
         linia.useWorldSpace = false;
         linia.loop = false;
         linia.widthCurve = AnimationCurve.Constant(0f, 1f, 1f);
-        linia.widthMultiplier = amplada;
+        linia.widthMultiplier = amplada * 0.75f;
+        linia.startColor = colorSuperat;
+        linia.endColor = colorSuperat;
         linia.numCapVertices = SegmentsTap;
-        linia.positionCount = punts.Length;
+        linia.positionCount = 0;
 
-        for (int i = 0; i < punts.Length; i++)
+        for (int i = 1; i < punts.Length; i++)
         {
-            linia.SetPosition(i, punts[i]);
-
-            if (i > 0)
-                distancies[i] = distancies[i - 1] + Vector2.Distance(punts[i - 1], punts[i]);
+            distancies[i] = distancies[i - 1] + Vector2.Distance(punts[i - 1], punts[i]);
         }
 
         Vector2[] normals = new Vector2[punts.Length];
@@ -218,6 +218,11 @@ public class EnrotllarMassa : MonoBehaviour
             {
                 resseguint = true;
                 posicioAnterior = posicio;
+
+                if (soEnrotllar != null)
+                {
+                    soEnrotllar.Play();
+                }
             }
 
             return;
@@ -282,53 +287,34 @@ public class EnrotllarMassa : MonoBehaviour
         return distanciaRecorreguda;
     }
 
-    private void ActualitzarColor(int percentatge)
+    private void ActualitzaLiniaProgres(int percentatge)
     {
-        int tram = percentatge / 25;
+        int tram = percentatge / 5;
 
         if (tram == ultimTram)
-        { return; }
+            return;
 
         ultimTram = tram;
 
-        GradientColorKey[] colors;
-
-        if (tram == 0 || tram == 4)
+        if (tram == 0)
         {
-            Color color = colorPendent;
-
-            if(tram == 4)
-            { color = colorSuperat; }
-
-            colors = new GradientColorKey[]
-                {
-                    new GradientColorKey(color, 0f),
-                    new GradientColorKey(color, 1f)
-                };
-        }
-        else
-        {
-            float limit = tram * 0.25f;
-
-            colors = new GradientColorKey[]
-                 {
-                    new GradientColorKey(colorSuperat, 0f),
-                    new GradientColorKey(colorSuperat, limit),
-                    new GradientColorKey(colorPendent, limit + 0.001f),
-                    new GradientColorKey(colorPendent, 1f)
-                 };
-
+            linia.positionCount = 0;
+            return;
         }
 
-        Gradient gradient = new Gradient();
+        float limit = distancies[NombreSegments] * (tram / 20f);
+        int final = 1;
+        while (final < NombreSegments && distancies[final] < limit)
+            final++;
 
-        gradient.SetKeys(colors, new GradientAlphaKey[]
-        {
-            new GradientAlphaKey(1f, 0f),
-            new GradientAlphaKey(1f, 1f)
-        });
+        float t = Mathf.InverseLerp(distancies[final - 1], distancies[final], limit);
+        Vector2 punta = Vector2.Lerp(punts[final - 1], punts[final], t);
 
-        linia.colorGradient = gradient;
+        linia.positionCount = final + 1;
+        for (int i = 0; i < final; i++)
+            linia.SetPosition(i, punts[i]);
+
+        linia.SetPosition(final, punta);
     }
     private int CalculaPercentatge()
     {
@@ -340,13 +326,15 @@ public class EnrotllarMassa : MonoBehaviour
         if (textPercentatge != null)
             textPercentatge.text = $"Enrotllat: {percentatge}%";
 
-        // Actualitza el color durant el recorregut fins al 100%
-        ActualitzarColor(percentatge);
+        ActualitzaLiniaProgres(percentatge);
     }
 
     private void Acaba(FinalIntent motiu)
     {
         acabat = true;
+        if(soEnrotllar != null)
+        { soEnrotllar.Stop(); }
+
         UltimPercentatge = motiu == FinalIntent.Completat ? 100 : CalculaPercentatge();
 
         string missatge = motiu switch
@@ -360,7 +348,7 @@ public class EnrotllarMassa : MonoBehaviour
         if (textPercentatge != null)
             textPercentatge.text = $"{missatge} · {UltimPercentatge}%";
 
-        ActualitzarColor(UltimPercentatge);
+        ActualitzaLiniaProgres(UltimPercentatge);
         int punts = Mathf.RoundToInt(UltimPercentatge / 100f * puntsMaxims);
         StartCoroutine(StageTransition.Advance(GameManager.RollStage, punts, pausaResultat, escenaSeguent, this));
     }
