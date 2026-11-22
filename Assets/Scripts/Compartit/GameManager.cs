@@ -13,6 +13,7 @@ namespace Xuixo
 
         public static GameManager Instance { get; private set; }
         public int TotalScore { get; private set; }
+        public bool MissedAllCustardDrops { get; private set; }
 
         private readonly Dictionary<string, int> stageScores = new Dictionary<string, int>();
 
@@ -23,6 +24,7 @@ namespace Xuixo
 
             Instance.stageScores.Clear();
             Instance.TotalScore = 0;
+            Instance.MissedAllCustardDrops = false;
         }
 
         private void Awake()
@@ -43,6 +45,8 @@ namespace Xuixo
         }
 
         public bool HasScore(string stage) => stageScores.ContainsKey(stage);
+
+        public void RecordCustardResult(int hits) => MissedAllCustardDrops = hits == 0;
 
         public bool TryAddScore(string stage, int points)
         {

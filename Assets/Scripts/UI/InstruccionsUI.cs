@@ -48,7 +48,7 @@ namespace Xuixo.UI
                 } },
             { "EnrotllarMassa", new[]
                 {
-                    new Pas("CLIC + ARROSSEGA", "Segueix l'espiral sense sortir-te'n fins al 100%"),
+                    new Pas("BOTÓ ESQUERRE", "Mantén premut a l'inici i ressegueix la massa fins al centre"),
                 } },
             // FryingFinale has its own live prompts for both timing rounds.
         };

@@ -275,6 +275,7 @@ MonoBehaviour:
   sugaredXuixo: {fileID: 2800000, guid: f25d2538664fd724a9d4c26ee502538a, type: 3}
   wonkyXuixo: {fileID: 2800000, guid: f4f3bfae7599f2c4790743c31d49a279, type: 3}
   extraWonkyXuixo: {fileID: 2800000, guid: a14faa02db7270e40a8ca208e10ed4e8, type: 3}
+  croissant: {fileID: 2800000, guid: fc884f82a8e9ba242b69607afd7fc7fe, type: 3}
   fryingPoints: 20
   wonkyMinScore: 40
   wellMadeMinScore: 70
@@ -282,8 +283,8 @@ MonoBehaviour:
   heatSeconds: 1.5
   targetStart: 0.75
   targetEnd: 0.9
-  secondTargetStart: 0.25
-  secondTargetEnd: 0.35
+  secondTargetStart: 0.35
+  secondTargetEnd: 0.45
   onXuixoEnding:
     m_PersistentCalls:
       m_Calls: []
@@ -291,6 +292,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   onExtraWonkyEnding:
+    m_PersistentCalls:
+      m_Calls: []
+  onCroissantEnding:
     m_PersistentCalls:
       m_Calls: []
   sugarPauseSeconds: 0.65
