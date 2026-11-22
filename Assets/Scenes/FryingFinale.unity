@@ -269,6 +269,8 @@ MonoBehaviour:
   fill: {fileID: 453}
   targetBand: {fileID: 463}
   targetHighlight: {r: 1, g: 0.8, b: 0.3, a: 0.45}
+  useGraphicCues: 1
+  graphicCue: {fileID: 643}
   friedXuixo: {fileID: 2800000, guid: a8a9fe2b52180ae46ae2682c4419c8ff, type: 3}
   sugaredXuixo: {fileID: 2800000, guid: f25d2538664fd724a9d4c26ee502538a, type: 3}
   wonkyXuixo: {fileID: 2800000, guid: f4f3bfae7599f2c4790743c31d49a279, type: 3}
@@ -277,10 +279,10 @@ MonoBehaviour:
   wonkyMinScore: 40
   wellMadeMinScore: 70
   standaloneScore: 55
-  heatSeconds: 4.4
-  targetStart: 0.56
-  targetEnd: 0.76
-  secondTargetStart: 0.15
+  heatSeconds: 1.5
+  targetStart: 0.75
+  targetEnd: 0.9
+  secondTargetStart: 0.25
   secondTargetEnd: 0.35
   onXuixoEnding:
     m_PersistentCalls:
@@ -291,6 +293,7 @@ MonoBehaviour:
   onExtraWonkyEnding:
     m_PersistentCalls:
       m_Calls: []
+  sugarPauseSeconds: 0.65
   awardRibbon: {fileID: 631}
   awardAudio: {fileID: 203}
   victoryJingle: {fileID: 8300000, guid: 1a8f920393795cd4c8f8ba8d6da461f0, type: 3}
@@ -429,6 +432,7 @@ RectTransform:
   - {fileID: 411}
   - {fileID: 421}
   - {fileID: 601}
+  - {fileID: 641}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -850,7 +854,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
     m_FontSize: 32
     m_FontStyle: 0
     m_BestFit: 0
@@ -862,7 +866,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: The fryer is ready
+  m_Text: Fregidora preparada
 --- !u!114 &404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -931,7 +935,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 410}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
@@ -945,7 +949,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
     m_FontSize: 22
     m_FontStyle: 0
     m_BestFit: 0
@@ -957,7 +961,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '[SPACE] Roll into the oil'
+  m_Text: '[Espai] Tira la massa a l''oli'
 --- !u!114 &414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1638,7 +1642,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '[SPACE] FLIP NOW!'
+  m_Text: '[Espai] Gira la massa!'
 --- !u!114 &504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1895,6 +1899,71 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a60266fb0b94b8daa6bded80dc42237, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!1 &640
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 641}
+  - component: {fileID: 642}
+  - component: {fileID: 643}
+  m_Layer: 5
+  m_Name: Fryer Action Cue
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &641
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 640}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 301}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -342, y: 65}
+  m_SizeDelta: {x: 132, y: 48}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &642
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 640}
+  m_CullTransparentMesh: 1
+--- !u!114 &643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f36e50c278af4456ba321216b2061cc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
