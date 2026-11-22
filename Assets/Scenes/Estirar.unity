@@ -245,6 +245,7 @@ MonoBehaviour:
   intents: 3
   puntuacio: 0
   Barra: {fileID: 1624573122}
+  soEstirar: {fileID: 1219303672}
   escenaSeguent: Crema
   pausaResultat: 1.5
   puntsMaxims: 20
@@ -334,7 +335,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: e7bc24877b295e641903b5b00b24400a, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
