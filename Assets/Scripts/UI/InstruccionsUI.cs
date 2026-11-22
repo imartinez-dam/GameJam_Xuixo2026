@@ -51,13 +51,7 @@ namespace Xuixo.UI
                 {
                     new Pas("CLIC + ARROSSEGA", "Segueix l'espiral sense sortir-te'n fins al 100%"),
                 } },
-            { "FryingFinale", new[]
-                {
-                    new Pas("ESPAI", "Tira'l a l'oli"),
-                    new Pas("ESPAI", "Gira'l a la zona daurada"),
-                    new Pas("NO PREMIS RES", "Mentre descansa"),
-                    new Pas("ESPAI", "Posa-hi sucre!"),
-                } },
+            // FryingFinale has its own live prompts for both timing rounds.
         };
 
         private static GameObject _instancia;
