@@ -9,25 +9,25 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 608381d84b4bbc71f8af6543b6363137
   - enabled: 1
-    path: Assets/Scenes/ObradorIntro.unity
+    path: Assets/Scenes/00_Intro.unity
     guid: 13ba67f6dc6ce3745aab7b675bf258ee
   - enabled: 1
-    path: Assets/Scenes/Escena1_Bol.unity
+    path: Assets/Scenes/01_BowlEscape.unity
     guid: b156c7ece945afe4d84efa7df4988d4f
   - enabled: 1
-    path: Assets/Scenes/Estirar.unity
+    path: Assets/Scenes/02_StretchDough.unity
     guid: d77f7e90854cb06bab182ebce132fea2
   - enabled: 1
-    path: Assets/Scenes/Crema.unity
+    path: Assets/Scenes/03_AddCustard.unity
     guid: c74a4e55447dc6e4087b5f0cf34493b1
   - enabled: 1
-    path: Assets/Scenes/EnrotllarMassa.unity
+    path: Assets/Scenes/04_RollDough.unity
     guid: ce55f5e34458a4547827697194addeb6
   - enabled: 1
-    path: Assets/Scenes/FryingFinale.unity
+    path: Assets/Scenes/05_FryPastry.unity
     guid: 4c88a5a57a90482db07e7496bfc99525
   - enabled: 1
-    path: Assets/Scenes/Credits.unity
+    path: Assets/Scenes/06_Credits.unity
     guid: f0ac93a13be468a40bd5def1c1878d97
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 3590b91b4603b465dbb4216d601bff33, type: 3}

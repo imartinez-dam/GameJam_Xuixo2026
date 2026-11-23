@@ -116,13 +116,12 @@ public static class ArtMon
     static readonly Color MetallFosc= Color.FromArgb(96, 104, 108);
     static readonly Color Blanc     = Color.FromArgb(250, 246, 236);
 
-    static string _eines, _vfx, _preview;
+    static string _bowl, _shared, _archive, _preview;
 
-    public static void Genera(string eines, string vfx, string preview)
+    public static void Genera(string bowl, string shared, string archive, string preview)
     {
-        _eines = eines; _vfx = vfx; _preview = preview;
-        Directory.CreateDirectory(eines);
-        Directory.CreateDirectory(vfx);
+        _bowl = bowl; _shared = shared; _archive = archive; _preview = preview;
+        Directory.CreateDirectory(Path.GetDirectoryName(preview));
 
         Desa(Corro(), "corro");
         Desa(BolDarrere(), "bol_darrere");
@@ -153,6 +152,18 @@ public static class ArtMon
         Contacte();
     }
 
+    static string PropPath(string nom)
+    {
+        string root = nom == "corro_gran" ? _shared
+            : nom == "taula_gran" || nom == "bol_gran_darrere" || nom == "bol_gran_vora" ? _bowl : _archive;
+        return Path.Combine(root, "Props", nom + ".png");
+    }
+
+    static string EffectPath(string nom)
+    {
+        return Path.Combine(nom == "farina" || nom == "estrelles" ? _bowl : _archive, "Effects", nom + ".png");
+    }
+
     static Color Mescla(Color a, Color b, float t)
     {
         return Color.FromArgb(
@@ -163,8 +174,10 @@ public static class ArtMon
 
     static void Desa(Lienzo l, string nom)
     {
+        string path = PropPath(nom);
+        Directory.CreateDirectory(Path.GetDirectoryName(path));
         using (var b = l.Escala(ESCALA))
-            b.Save(Path.Combine(_eines, nom + ".png"), ImageFormat.Png);
+            b.Save(path, ImageFormat.Png);
     }
 
     static void Full(string nom, List<Lienzo> frames)
@@ -178,8 +191,10 @@ public static class ArtMon
                     Color c = frames[f].P[y * w + x];
                     if (c.A > 0) l.Punt(f * w + x, y, c);
                 }
+        string path = EffectPath(nom);
+        Directory.CreateDirectory(Path.GetDirectoryName(path));
         using (var b = l.Escala(ESCALA))
-            b.Save(Path.Combine(_vfx, nom + ".png"), ImageFormat.Png);
+            b.Save(path, ImageFormat.Png);
     }
 
     // ------------------------------------------------------------- objectes
@@ -674,7 +689,7 @@ public static class ArtMon
             {
                 for (int i = 0; i < nomsEines.Length; i++)
                 {
-                    using (var im = Image.FromFile(Path.Combine(_eines, nomsEines[i] + ".png")))
+                     using (var im = Image.FromFile(PropPath(nomsEines[i])))
                     {
                         int x = 40 + (i % 4) * 300;
                         int y = 40 + (i / 4) * 190;
@@ -688,7 +703,7 @@ public static class ArtMon
 
                 for (int i = 0; i < nomsVfx.Length; i++)
                 {
-                    using (var im = Image.FromFile(Path.Combine(_vfx, nomsVfx[i] + ".png")))
+                     using (var im = Image.FromFile(EffectPath(nomsVfx[i])))
                     {
                         int x = 40 + (i % 4) * 300;
                         int y = 640 + (i / 4) * 120;
@@ -708,18 +723,21 @@ public static class ArtMon
 Add-Type -TypeDefinition $codi -ReferencedAssemblies System.Drawing
 
 $arrel = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot ".."))
-$eines = Join-Path $arrel "Assets\Art\Compartit\eines"
-$vfx = Join-Path $arrel "Assets\Art\Compartit\vfx"
+$content = Join-Path $arrel "Assets\Content"
+$bowl = Join-Path $content "01_BowlEscape\Art\World"
+$shared = Join-Path $content "Shared\Art\World"
+$archive = Join-Path $content "Archive\Art"
+$archiveWorld = Join-Path $archive "World"
+$frying = Join-Path $content "05_FryPastry\Art\Sprites"
 $preview = Join-Path $arrel "docs\preview_mon.png"
 
-[ArtMon]::Genera($eines, $vfx, $preview)
-"Generat: $eines"
-
-$nomsMasa = @("dough_pixel","kneaded_dough_pixel","stretched_dough_pixel","stretched_dough_with_custard_pixel","rolled_dough_with_custard_pixel","fried_rolled_dough_pixel","heavily_sugared_fried_rolled_dough_pixel","finished_croissant_pixel")
-$unitatsMasa = @(0.50, 0.40, 1.00, 1.00, 1.20, 1.20, 1.20, 1.00)
-$destiMasa = Join-Path $arrel "Assets\Sprites\160"
-[ArtMon]::Normalitza((Join-Path $arrel "Assets\Sprites"), $destiMasa, $nomsMasa, $unitatsMasa)
-"Normalitzat a: $destiMasa"
-Get-ChildItem $destiMasa -Filter *.png | Select-Object Name,Length | Format-Table -AutoSize
-Get-ChildItem $eines -Filter *.png | Select-Object Name,Length | Format-Table -AutoSize
-Get-ChildItem $vfx -Filter *.png | Select-Object Name,Length | Format-Table -AutoSize
+[ArtMon]::Genera($bowl, $shared, $archiveWorld, $preview)
+$source = Join-Path $archive "Sprites"
+$normalized = Join-Path $archiveWorld "Normalized"
+[ArtMon]::Normalitza($source, $bowl, @("dough_pixel"), @(0.50))
+[ArtMon]::Normalitza($source, $normalized,
+    @("kneaded_dough_pixel","stretched_dough_pixel","stretched_dough_with_custard_pixel"), @(0.40, 1.00, 1.00))
+[ArtMon]::Normalitza($frying, $normalized,
+    @("rolled_dough_with_custard_pixel","fried_rolled_dough_pixel","heavily_sugared_fried_rolled_dough_pixel","finished_croissant_pixel"),
+    @(1.20, 1.20, 1.20, 1.00))
+"Generated world art and preview: $preview"

@@ -1,6 +1,6 @@
 # Genera el kit d'interficie (UI) pixel-art del Xuixo 2026.
 # Us: powershell -ExecutionPolicy Bypass -File tools/genera_art_ui.ps1
-# Sortida: Assets/Art/UI/*.png + preview_ui.png
+# Sortida: Assets/Content/Shared/UI/Art/*.png + docs/preview_ui.png
 
 Add-Type -AssemblyName System.Drawing
 
@@ -414,7 +414,9 @@ public static class ArtUI
                 marc.Dispose(); farc.Dispose();
             }
         }
-        bmp.Save(Path.Combine(_carpeta, "..", "..", "..", "docs", "preview_ui.png"), ImageFormat.Png);
+        string docs = Path.Combine(_carpeta, "..", "..", "..", "..", "..", "docs");
+        Directory.CreateDirectory(docs);
+        bmp.Save(Path.Combine(docs, "preview_ui.png"), ImageFormat.Png);
         bmp.Dispose();
     }
 }
@@ -422,7 +424,7 @@ public static class ArtUI
 
 Add-Type -TypeDefinition $codi -ReferencedAssemblies System.Drawing
 
-$desti = Join-Path $PSScriptRoot "..\Assets\Art\UI"
+$desti = Join-Path $PSScriptRoot "..\Assets\Content\Shared\UI\Art"
 $desti = [System.IO.Path]::GetFullPath($desti)
 [ArtUI]::Genera($desti)
 "Generat a: $desti"

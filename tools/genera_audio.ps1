@@ -12,23 +12,20 @@ public static class AudioGen
 {
     const int SR = 22050;
 
-    static string _sfx, _mus;
-
-    public static void Genera(string sfx, string musica)
+    public static void Genera(string bowl, string shared, string archive)
     {
-        _sfx = sfx; _mus = musica;
-        Directory.CreateDirectory(sfx);
-        Directory.CreateDirectory(musica);
-
-        Desa(sfx, "massa_remenar", Remenar());
-        Desa(sfx, "massa_sortida", Sortida());
-        Desa(sfx, "massa_rodar", Rodar());
-        Desa(sfx, "massa_aterrar", Aterrar());
-        Desa(sfx, "corro", Corro());
-        Desa(sfx, "farina", Farina());
-        Desa(sfx, "victoria", Victoria());
-        Desa(sfx, "ui_clic", Clic());
-        Desa(musica, "musica_joc", Musica());
+        Directory.CreateDirectory(bowl);
+        Directory.CreateDirectory(shared);
+        Directory.CreateDirectory(archive);
+        Desa(bowl, "massa_remenar", Remenar());
+        Desa(bowl, "massa_sortida", Sortida());
+        Desa(bowl, "massa_rodar", Rodar());
+        Desa(bowl, "massa_aterrar", Aterrar());
+        Desa(bowl, "corro", Corro());
+        Desa(archive, "farina", Farina());
+        Desa(shared, "victoria", Victoria());
+        Desa(bowl, "ui_clic", Clic());
+        Desa(bowl, "musica_joc", Musica());
     }
 
     // ------------------------------------------------------------- utilitats
@@ -288,8 +285,8 @@ public static class AudioGen
 Add-Type -TypeDefinition $codi
 
 $arrel = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot ".."))
-$sfx = Join-Path $arrel "Assets\Audio\sfx"
-$mus = Join-Path $arrel "Assets\Audio\musica"
-[AudioGen]::Genera($sfx, $mus)
-Get-ChildItem $sfx -Filter *.wav | Select-Object Name,Length | Format-Table -AutoSize
-Get-ChildItem $mus -Filter *.wav | Select-Object Name,Length | Format-Table -AutoSize
+$bowl = Join-Path $arrel "Assets\Content\01_BowlEscape\Audio"
+$shared = Join-Path $arrel "Assets\Content\Shared\Audio"
+$archive = Join-Path $arrel "Assets\Content\Archive\Audio"
+[AudioGen]::Genera($bowl, $shared, $archive)
+Get-ChildItem $bowl,$shared,$archive -Filter *.wav | Select-Object Name,Length | Format-Table -AutoSize
